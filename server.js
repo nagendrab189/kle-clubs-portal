@@ -16,10 +16,10 @@ process.on("unhandledRejection", err => {
 });
 
 // =========================================================
-// 2. BUILT-IN RATE LIMITER (PROTECTS AGAINST SPAM & DDOS)
+// 2. BUILT-IN RATE LIMITER & CORS
 // =========================================================
 const ipRequestMap = new Map();
-setInterval(() => ipRequestMap.clear(), 60 * 1000); // Reset every 60s
+setInterval(() => ipRequestMap.clear(), 60 * 1000);
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -27,12 +27,11 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   if (req.method === "OPTIONS") return res.sendStatus(200);
 
-  // Limit each IP to 180 API requests per minute
   if (req.path.startsWith("/api/")) {
     const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress || "unknown";
     const count = (ipRequestMap.get(ip) || 0) + 1;
     ipRequestMap.set(ip, count);
-    if (count > 180) {
+    if (count > 240) {
       return res.status(429).json({ error: "Too many requests! Please wait a moment and try again." });
     }
   }
@@ -41,7 +40,6 @@ app.use((req, res, next) => {
 
 app.use(express.json({ limit: "250kb" }));
 
-// Cache images & CSS in student browsers for 1 day so 5,000 students don't overload bandwidth
 app.use(
   express.static(__dirname, {
     maxAge: "1d",
@@ -58,7 +56,7 @@ app.get("/", (req, res) => {
 });
 
 const DEVELOPER_EMAIL = "01fe25bcs252@kletech.ac.in";
-const MAX_ADMINS = 14;
+const MAX_ADMINS = 16;
 
 const DB_FOLDER = path.join(__dirname, "databases");
 if (!fs.existsSync(DB_FOLDER)) {
@@ -321,7 +319,6 @@ const MEMORY_DB = {
   clubs: {}
 };
 
-// Ensure all 16 clubs exist in clubPages and clubs memory cache
 ALL_CLUBS.forEach(clubName => {
   if (!MEMORY_DB.clubPages[clubName]) {
     MEMORY_DB.clubPages[clubName] = JSON.parse(JSON.stringify(DEFAULT_CLUB_PAGES[clubName]));
@@ -335,7 +332,6 @@ ALL_CLUBS.forEach(clubName => {
     : [];
 });
 
-// Atomic Non-Blocking Disk Writer (Prevents File Corruption on Concurrent Writes)
 const writeLocks = new Map();
 function saveToDiskAsync(filePath, dataSnapshot) {
   const serialized = JSON.stringify(dataSnapshot, null, 2);
@@ -354,7 +350,6 @@ function saveToDiskAsync(filePath, dataSnapshot) {
   writeLocks.set(filePath, nextPromise);
 }
 
-// Fast RAM-backed getters and savers
 function readClubRecords(clubName) {
   return MEMORY_DB.clubs[clubName] || [];
 }
@@ -446,11 +441,11 @@ function saveEvents(events) {
 function getAuthorizedClubsForClubHead(email, usn) {
   const cleanEmail = (email || "").trim().toLowerCase();
   const cleanUsn = (usn || "").trim().toUpperCase();
-  if (!cleanEmail) return [];
+  if (!cleanEmail && !cleanUsn) return [];
 
   const authorizedClubs = new Set();
   readAdmins().forEach(a => {
-    if (a.email.toLowerCase() === cleanEmail || (cleanUsn && a.usn.toUpperCase() === cleanUsn)) {
+    if ((cleanEmail && a.email.toLowerCase() === cleanEmail) || (cleanUsn && a.usn.toUpperCase() === cleanUsn)) {
       authorizedClubs.add(a.club_name);
     }
   });
@@ -1006,6 +1001,7 @@ app.post("/api/google-login", async (req, res) => {
   }
 });
 
+// RECORDS STUDENT WHEN THEY CLICK THE OFFLINE TEST LINK BUTTON
 const handleClubApply = (req, res) => {
   const { student_name, usn, email, club_name } = req.body;
   if (!student_name || !usn || !email || !club_name) {
@@ -1024,11 +1020,11 @@ const handleClubApply = (req, res) => {
 
   const existing = records.find(m => m.usn === cleanUsn || m.email === cleanEmail);
   if (existing) {
-    if (existing.status === "accepted") {
-      return res.status(400).json({ error: `You have already passed the test and joined ${club_name}!` });
-    }
-    return res.status(400).json({
-      error: `You have already applied for ${club_name}! Please attend the offline test and wait for the Club Head to accept your application.`
+    return res.json({
+      status: existing.status,
+      message: existing.status === "accepted"
+        ? `You are already an accepted member of ${club_name}!`
+        : `Your application for ${club_name} is already recorded and pending offline test review.`
     });
   }
 
@@ -1043,7 +1039,8 @@ const handleClubApply = (req, res) => {
 
   saveClubRecords(club_name, records);
   res.json({
-    message: `Application submitted for ${club_name}! Please attend the offline test. Once you pass, the Club Head will accept you into the club.`
+    status: "pending",
+    message: `Application recorded for ${club_name}! Complete the offline test form. Once you pass, the Club Head will accept you into the club.`
   });
 };
 
@@ -1070,7 +1067,6 @@ app.get("/api/student-status", (req, res) => {
   res.json({ status_map: statusMap });
 });
 
-// Express global error middleware
 app.use((err, req, res, next) => {
   console.error("⚠️ Express error caught:", err.message);
   res.status(500).json({ error: "Something went wrong, please try again." });
