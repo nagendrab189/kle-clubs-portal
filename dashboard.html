@@ -92,7 +92,7 @@ th{font-size:12px;text-transform:uppercase;color:var(--slate)}
   <div class="auth-wrap" id="authBox">
     <div class="tabs">
       <button type="button" class="tab-btn active" id="tabLoginBtn" onclick="switchAuthTab('login')">Club Head Login</button>
-      <button type="button" class="tab-btn" id="tabRegBtn" onclick="switchAuthTab('register')">Create Head (Max 14)</button>
+      <button type="button" class="tab-btn" id="tabRegBtn" onclick="switchAuthTab('register')">Create Head (Max 16)</button>
     </div>
 
     <div id="authMsg" class="msg"></div>
@@ -100,7 +100,7 @@ th{font-size:12px;text-transform:uppercase;color:var(--slate)}
     <!-- LOGIN FORM -->
     <div id="loginForm">
       <h2 style="font-size:24px;margin-bottom:6px">Club Head Login</h2>
-      <p style="font-size:13.5px;color:var(--slate);margin-bottom:18px">Sign in to manage your club's webpage, offline test link, events, and members.</p>
+      <p style="font-size:13.5px;color:var(--slate);margin-bottom:18px">Sign in to manage your club's webpage, offline test link, events, and applicants.</p>
       <div class="field">
         <label>College Email (@kletech.ac.in) or USN</label>
         <input type="text" id="loginId" placeholder="e.g. 01fe25bcs252@kletech.ac.in" />
@@ -115,7 +115,7 @@ th{font-size:12px;text-transform:uppercase;color:var(--slate)}
     <!-- REGISTER FORM -->
     <div id="registerForm" style="display:none">
       <h2 style="font-size:24px;margin-bottom:6px">Create Club Head Account</h2>
-      <p style="font-size:13.5px;color:var(--slate);margin-bottom:18px">Only 14 Club Heads can register. Enter your Name, USN, College Email, and create your password.</p>
+      <p style="font-size:13.5px;color:var(--slate);margin-bottom:18px">Up to <b>16 Club Heads</b> (1 per club) can register. Enter your Name, USN, College Email, and create your password.</p>
       <div class="field">
         <label>Full Name</label>
         <input type="text" id="regName" placeholder="Enter full name" />
@@ -189,7 +189,7 @@ th{font-size:12px;text-transform:uppercase;color:var(--slate)}
     <!-- SECTION 1: EDIT THIS CLUB'S WEBPAGE DIRECTLY INSIDE DASHBOARD -->
     <div class="section-card">
       <h2>🎨 Customize Your Public Club Webpage (<span id="editorClubLabel"></span>)</h2>
-      <p class="section-sub">Edit your club's tagline, about description, offline test details, Google Form registration link, theme colors, advantages, and benefits right here. Normal students only see the saved result on the public page.</p>
+      <p class="section-sub">Paste your Offline Test application link below to enable the registration button on your club page. If the link field is left empty, the button stays hidden.</p>
 
       <div id="pageSaveMsg" class="msg"></div>
 
@@ -211,8 +211,8 @@ th{font-size:12px;text-transform:uppercase;color:var(--slate)}
             <textarea id="editTestInfo" rows="3"></textarea>
           </div>
           <div class="field">
-            <label>Offline Test Registration Link (Google Form URL)</label>
-            <input type="url" id="editRegLink" placeholder="https://forms.gle/..." />
+            <label>Offline Test Application Link (Paste URL to Enable Button on Club Page)</label>
+            <input type="url" id="editRegLink" placeholder="https://forms.gle/... (Leave empty to hide button)" />
           </div>
           <div class="color-grid">
             <div>
@@ -259,7 +259,7 @@ th{font-size:12px;text-transform:uppercase;color:var(--slate)}
     <!-- SECTION 2: APPLICANTS & ACCEPTED MEMBERS -->
     <div class="section-card">
       <h2>📝 Pending Offline Test Applicants</h2>
-      <p class="section-sub">Accept students who passed your club's offline test or decline their application.</p>
+      <p class="section-sub">Every student who clicks your Offline Test Registration Link button is automatically recorded here. Accept students who pass your offline test or decline their application.</p>
       <table>
         <thead>
           <tr><th>Student Name</th><th>USN</th><th>Email</th><th>Action</th></tr>
@@ -270,12 +270,49 @@ th{font-size:12px;text-transform:uppercase;color:var(--slate)}
 
     <div class="section-card">
       <h2>✅ Accepted Club Members</h2>
-      <p class="section-sub">Official members of your club.</p>
+      <p class="section-sub">Official members who passed the offline test and were accepted by you.</p>
       <table>
         <thead>
           <tr><th>Member Name</th><th>USN</th><th>Email</th><th>Action</th></tr>
         </thead>
         <tbody id="membersTableBody"></tbody>
+      </table>
+    </div>
+
+    <!-- SECTION 3: ADD / MANAGE UPCOMING CLUB EVENTS -->
+    <div class="section-card">
+      <h2>📅 Manage Upcoming Events for Your Club</h2>
+      <p class="section-sub">Post upcoming workshops, auditions, or fests for your club onto the main homepage calendar.</p>
+      <div id="eventMsg" class="msg"></div>
+      <div class="grid-2">
+        <div class="field">
+          <label>Event Title</label>
+          <input type="text" id="evTitle" placeholder="e.g. Annual Auditions / Coding Sprint" />
+        </div>
+        <div class="field">
+          <label>Venue</label>
+          <input type="text" id="evVenue" placeholder="e.g. Main Auditorium" />
+        </div>
+        <div class="field">
+          <label>Event Date</label>
+          <input type="date" id="evDate" />
+        </div>
+        <div class="field">
+          <label>Event Time</label>
+          <input type="time" id="evTime" />
+        </div>
+      </div>
+      <div class="field">
+        <label>Short Event Description</label>
+        <textarea id="evDesc" rows="2" placeholder="Describe the event details..."></textarea>
+      </div>
+      <button type="button" class="btn-primary" onclick="saveClubEvent()">+ Publish Upcoming Event →</button>
+
+      <table style="margin-top:18px">
+        <thead>
+          <tr><th>Event Title</th><th>Date &amp; Time</th><th>Venue</th><th>Action</th></tr>
+        </thead>
+        <tbody id="clubEventsTableBody"></tbody>
       </table>
     </div>
   </div>
@@ -366,6 +403,7 @@ async function loginClubHead() {
     document.getElementById("dashboardPanel").style.display = "block";
     renderDashboardHeaderAndTables(data);
     await loadClubPageIntoEditor(data.club_name);
+    await loadClubEventsTable();
   } catch (e) {
     showAuthMsg("Server error! Make sure node server.js is running.", false);
   }
@@ -503,7 +541,9 @@ async function saveClubWebpageFromDashboard() {
       msg.className = "msg err";
       return;
     }
-    msg.textContent = `✅ Saved! Your live ${currentHead.club_name} webpage has been updated.`;
+    msg.textContent = payload.registration_link
+      ? `✅ Saved! The Offline Test Registration button is now ACTIVE on your ${currentHead.club_name} page.`
+      : `✅ Saved! Since the link is empty, the registration button is now HIDDEN on your ${currentHead.club_name} page.`;
     msg.className = "msg ok";
   } catch (e) {
     msg.textContent = "Network error while saving changes.";
@@ -551,6 +591,74 @@ async function removeMember(member_usn) {
     currentHead.total_pending_applicants = data.total_pending_applicants;
     renderDashboardHeaderAndTables(currentHead);
   }
+}
+
+async function loadClubEventsTable() {
+  if (!currentHead) return;
+  try {
+    const res = await fetch(`/api/events?email=${encodeURIComponent(currentHead.email)}&usn=${encodeURIComponent(currentHead.usn)}`);
+    if (!res.ok) return;
+    const data = await res.json();
+    const myEvents = (data.events || []).filter(e => e.club_name === currentHead.club_name);
+    const tbody = document.getElementById("clubEventsTableBody");
+    tbody.innerHTML = myEvents.length
+      ? myEvents.map(e => `
+          <tr>
+            <td><b>${e.title}</b></td>
+            <td>${e.event_date} • ${e.event_time}</td>
+            <td>${e.venue}</td>
+            <td><button class="btn-mini btn-del" onclick="deleteClubEvent('${e.id}')">Delete</button></td>
+          </tr>
+        `).join("")
+      : `<tr><td colspan="4" style="color:#64748b">No upcoming events for ${currentHead.club_name}.</td></tr>`;
+  } catch (e) {}
+}
+
+async function saveClubEvent() {
+  if (!currentHead) return;
+  const msg = document.getElementById("eventMsg");
+  const title = document.getElementById("evTitle").value.trim();
+  const venue = document.getElementById("evVenue").value.trim();
+  const event_date = document.getElementById("evDate").value;
+  const event_time = document.getElementById("evTime").value;
+  const description = document.getElementById("evDesc").value.trim();
+
+  const res = await fetch("/api/events/save", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      title,
+      venue,
+      event_date,
+      event_time,
+      description,
+      club_name: currentHead.club_name,
+      email: currentHead.email,
+      usn: currentHead.usn
+    })
+  });
+  const data = await res.json();
+  if (!res.ok) {
+    msg.textContent = data.error || "Could not save event.";
+    msg.className = "msg err";
+    return;
+  }
+  msg.textContent = "✅ Event published!";
+  msg.className = "msg ok";
+  document.getElementById("evTitle").value = "";
+  document.getElementById("evVenue").value = "";
+  document.getElementById("evDesc").value = "";
+  await loadClubEventsTable();
+}
+
+async function deleteClubEvent(id) {
+  if (!currentHead) return;
+  await fetch("/api/events/delete", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id, email: currentHead.email, usn: currentHead.usn })
+  });
+  await loadClubEventsTable();
 }
 
 function logoutClubHead() {
