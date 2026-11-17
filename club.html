@@ -44,19 +44,13 @@ a{text-decoration:none;color:inherit}
 .art-card .em{font-size:76px;line-height:1}
 .art-card b{font-size:14px;color:var(--primary);font-weight:800;text-transform:uppercase;letter-spacing:1px}
 
-/* CLUB HEAD EDITOR TOOLBAR (HIDDEN BY DEFAULT FOR STUDENTS) */
-.member-editor-bar{max-width:1180px;margin:26px auto 0;padding:0 24px;display:none}
-.editor-banner{background:#fff;border:2px solid var(--primary);border-radius:18px;padding:16px 22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;box-shadow:0 10px 25px rgba(0,0,0,.05)}
-.editor-banner b{color:var(--primary);font-size:14.5px}
-.btn-edit-tool{padding:9px 16px;border-radius:9px;background:var(--club-grad);color:#fff;font-size:12.5px;font-weight:700;border:0;cursor:pointer}
-
 /* MAIN CONTENT */
 .wrap{max-width:1180px;margin:36px auto 80px;padding:0 24px}
 .info-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;margin-bottom:32px}
 .card{background:#fff;border-radius:22px;padding:30px;border:1px solid rgba(0,0,0,.06);box-shadow:0 12px 32px rgba(0,0,0,.04);position:relative}
 .card::before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:var(--club-grad);border-radius:22px 22px 0 0}
 .sec-tag{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--primary);margin-bottom:8px}
-.card h2{font-family:Georgia,'Times New Roman',serif;font-size:28px;margin-bottom:4px;color:var(--ink)}
+.card h2{font-family:Georgia,'Times New Roman',serif;font-size:28px;margin-bottom:10px;color:var(--ink)}
 .card p{font-size:15px;line-height:1.75;color:var(--slate)}
 
 .test-box{background:var(--page-bg);border-left:4px solid var(--primary);padding:16px 18px;border-radius:12px;margin-top:16px}
@@ -70,28 +64,20 @@ a{text-decoration:none;color:inherit}
 
 /* ADVANTAGES & BENEFITS GRID */
 .ab-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-bottom:32px}
-.card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px}
-.btn-add-item{display:none;padding:7px 14px;border-radius:8px;background:var(--club-grad);color:#fff;font-size:12px;font-weight:700;border:0;cursor:pointer;white-space:nowrap}
-.item-list{list-style:none;display:flex;flex-direction:column;gap:12px}
+.item-list{list-style:none;display:flex;flex-direction:column;gap:12px;margin-top:14px}
 .item-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:14px;background:var(--page-bg);border:1px solid rgba(0,0,0,.05)}
 .item-text{display:flex;gap:12px;align-items:flex-start;font-size:14.5px;line-height:1.55;color:var(--ink);font-weight:500}
 .item-icon{width:26px;height:26px;border-radius:8px;background:var(--club-grad);color:#fff;display:grid;place-items:center;font-size:13px;flex-shrink:0;margin-top:1px}
-.item-actions{display:none;gap:6px;flex-shrink:0}
-.sm-btn{padding:4px 9px;border-radius:6px;font-size:11.5px;font-weight:700;border:0;cursor:pointer}
-.sm-edit{background:#dbeafe;color:#1d4ed8}
-.sm-del{background:#fee2e2;color:#dc2626}
 
-/* MODALS */
+/* STUDENT LOGIN MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.62);backdrop-filter:blur(5px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
 .modal-overlay.open{display:flex}
-.modal-card{width:100%;max-width:500px;background:#fff;border-radius:22px;padding:28px 26px;box-shadow:0 24px 60px rgba(0,0,0,.28);position:relative;max-height:92vh;overflow-y:auto}
+.modal-card{width:100%;max-width:460px;background:#fff;border-radius:22px;padding:28px 26px;box-shadow:0 24px 60px rgba(0,0,0,.28);position:relative}
 .modal-close{position:absolute;top:14px;right:16px;width:32px;height:32px;border-radius:50%;border:0;background:#f1f5f9;font-size:18px;font-weight:700;cursor:pointer}
 .field{margin-bottom:14px;text-align:left}
 .field label{display:block;font-size:12.5px;font-weight:700;color:#334155;margin-bottom:5px}
-.field input,.field textarea{width:100%;padding:10px 13px;border:1.5px solid var(--line);border-radius:10px;font-size:14px;outline:none}
-.color-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
-.color-row input[type="color"]{width:100%;height:38px;border:1px solid var(--line);border-radius:8px;cursor:pointer}
-.btn-save{width:100%;padding:13px;border-radius:10px;border:0;background:var(--club-grad);color:#fff;font-size:14px;font-weight:700;cursor:pointer}
+.field input{width:100%;padding:10px 13px;border:1.5px solid var(--line);border-radius:10px;font-size:14px;outline:none}
+.btn-save{width:100%;padding:13px;border-radius:10px;border:0;background:#111827;color:#fff;font-size:14px;font-weight:700;cursor:pointer}
 .msg{display:none;padding:10px 12px;border-radius:8px;font-size:13px;font-weight:600;margin-bottom:12px}
 .msg.err{display:block;background:#fef2f2;color:#dc2626}
 
@@ -135,42 +121,17 @@ a{text-decoration:none;color:inherit}
   </div>
 </section>
 
-<!-- STRICTLY VISIBLE ONLY TO THE CORRECT CLUB HEAD FOR THIS SPECIFIC CLUB -->
-<div class="member-editor-bar" id="memberEditorBar">
-  <div class="editor-banner">
-    <div>
-      <b>👑 Club Head Webpage Editor Active</b>
-      <p style="font-size:12.5px;color:var(--slate)">Only you (the registered Club Head of this club) can customize this club's information, registration link, theme colors, advantages, and benefits.</p>
-    </div>
-    <div>
-      <button type="button" class="btn-edit-tool" onclick="openInfoModal()">🎨 Edit Theme Colors &amp; Tagline</button>
-    </div>
-  </div>
-</div>
-
 <div class="wrap">
   <div class="info-grid">
-    <!-- ABOUT THE CLUB CARD -->
     <div class="card">
-      <div class="card-head">
-        <div>
-          <span class="sec-tag">About The Club</span>
-          <h2 id="aboutTitle">What We Do</h2>
-        </div>
-        <button type="button" class="btn-add-item member-only-btn" onclick="openInfoModal()">✏️ Edit About</button>
-      </div>
+      <span class="sec-tag">About The Club</span>
+      <h2 id="aboutTitle">What We Do</h2>
       <p id="aboutDescription"></p>
     </div>
 
-    <!-- OFFLINE TEST & REGISTRATION LINK CARD -->
     <div class="card">
-      <div class="card-head">
-        <div>
-          <span class="sec-tag">Selection Procedure</span>
-          <h2>Offline Test &amp; Audition</h2>
-        </div>
-        <button type="button" class="btn-add-item member-only-btn" onclick="openInfoModal()">✏️ Edit Test &amp; Link</button>
-      </div>
+      <span class="sec-tag">Selection Procedure</span>
+      <h2>Offline Test &amp; Audition</h2>
       <p>Register using the link below and appear for the offline test conducted by the club panel:</p>
       <div class="test-box">
         <b>📋 Offline Test Format</b>
@@ -181,90 +142,21 @@ a{text-decoration:none;color:inherit}
   </div>
 
   <div class="ab-grid">
-    <!-- ADVANTAGES CARD -->
     <div class="card">
-      <div class="card-head">
-        <div>
-          <span class="sec-tag">Why Join Us</span>
-          <h2>Advantages of Joining</h2>
-        </div>
-        <button type="button" class="btn-add-item member-only-btn" onclick="openItemModal('advantages', -1)">+ Add Advantage</button>
-      </div>
+      <span class="sec-tag">Why Join Us</span>
+      <h2>Advantages of Joining</h2>
       <ul class="item-list" id="advantagesList"></ul>
     </div>
 
-    <!-- BENEFITS CARD -->
     <div class="card">
-      <div class="card-head">
-        <div>
-          <span class="sec-tag">Student Perks</span>
-          <h2>Member Benefits &amp; Growth</h2>
-        </div>
-        <button type="button" class="btn-add-item member-only-btn" onclick="openItemModal('benefits', -1)">+ Add Benefit</button>
-      </div>
+      <span class="sec-tag">Student Perks</span>
+      <h2>Member Benefits &amp; Growth</h2>
       <ul class="item-list" id="benefitsList"></ul>
     </div>
   </div>
 </div>
 
-<!-- MODAL 1: EDIT CLUB INFO -->
-<div class="modal-overlay" id="infoModal">
-  <div class="modal-card">
-    <button type="button" class="modal-close" onclick="closeInfoModal()">×</button>
-    <h3 style="font-size:20px;margin-bottom:14px">Edit Club Info, Test Link &amp; Colors</h3>
-    <div id="infoMsg" class="msg"></div>
-
-    <div class="field">
-      <label>Club Tagline (Hero Banner)</label>
-      <input type="text" id="editTagline" />
-    </div>
-    <div class="field">
-      <label>About the Club</label>
-      <textarea id="editAbout" rows="3"></textarea>
-    </div>
-    <div class="field">
-      <label>Offline Test / Audition Format</label>
-      <textarea id="editTestInfo" rows="2"></textarea>
-    </div>
-    <div class="field">
-      <label>Offline Test Registration Link (Google Form / Registration URL)</label>
-      <input type="url" id="editRegLink" placeholder="https://forms.gle/..." />
-    </div>
-    <div class="color-row">
-      <div>
-        <label style="font-size:11.5px;font-weight:700">Primary Color</label>
-        <input type="color" id="editPrimaryCol" />
-      </div>
-      <div>
-        <label style="font-size:11.5px;font-weight:700">Secondary Color</label>
-        <input type="color" id="editSecondaryCol" />
-      </div>
-      <div>
-        <label style="font-size:11.5px;font-weight:700">Page Background</label>
-        <input type="color" id="editBgCol" />
-      </div>
-    </div>
-    <button type="button" class="btn-save" onclick="saveClubInfoAndColors()">Save Changes →</button>
-  </div>
-</div>
-
-<!-- MODAL 2: ADD / EDIT ADVANTAGE OR BENEFIT -->
-<div class="modal-overlay" id="itemModal">
-  <div class="modal-card">
-    <button type="button" class="modal-close" onclick="closeItemModal()">×</button>
-    <h3 id="itemModalTitle" style="font-size:21px;margin-bottom:14px">Add Item</h3>
-    <input type="hidden" id="itemType" />
-    <input type="hidden" id="itemIndex" />
-
-    <div class="field">
-      <label id="itemLabel">Description</label>
-      <textarea id="itemTextInput" rows="3" placeholder="Enter point here..."></textarea>
-    </div>
-    <button type="button" class="btn-save" onclick="saveListItem()">Save Point →</button>
-  </div>
-</div>
-
-<!-- MODAL 3: STUDENT GOOGLE LOGIN POPUP -->
+<!-- STUDENT GOOGLE LOGIN POPUP -->
 <div class="modal-overlay" id="loginModal">
   <div class="modal-card" style="text-align:center">
     <button type="button" class="modal-close" onclick="closeLoginModal()">×</button>
@@ -275,7 +167,7 @@ a{text-decoration:none;color:inherit}
       <label>Your University USN (Optional if in email)</label>
       <input type="text" id="usnInput" placeholder="e.g. 01FE25BCS252" />
     </div>
-    <button type="button" class="btn-save" style="background:#111827" onclick="triggerGoogleLogin()">
+    <button type="button" class="btn-save" onclick="triggerGoogleLogin()">
       Continue with Google (@kletech.ac.in)
     </button>
   </div>
@@ -304,60 +196,6 @@ const FALLBACK_CLUBS = {
     advantages: ["Perform at flagship university fests and inter-college cultural competitions", "Weekly choreography workshops led by senior dancers", "Access to dedicated practice studio slots"],
     benefits: ["Official KLE Tech Cultural Certificate and credit points", "Priority travel sponsorship for national dance fests", "Build stage confidence, teamwork, and fitness"]
   },
-  "Music Club": {
-    category: "Cultural Clubs", tagline: "Where vocalists, instrumentalists, and bands create unforgettable campus anthems.",
-    theme_primary: "#7c3aed", theme_secondary: "#a855f7", theme_bg: "#f5f3ff",
-    about: "From classical ragas and acoustic unplugged nights to battle-of-the-bands rock shows, the Music Club is the heartbeat of campus live entertainment.",
-    offline_test_info: "Live vocal or instrumental audition evaluated on pitch, rhythm, and stage presence.",
-    registration_link: "",
-    advantages: ["Jam sessions in the university music room with full band gear", "Headline campus concerts and open-air acoustic nights", "Collaborate with songwriters and fellow musicians"],
-    benefits: ["Hands-on experience with live audio mixing and stage setup", "Official representation in national Battle of Bands events", "Lifetime network of campus musicians"]
-  },
-  "Drama Club": {
-    category: "Cultural Clubs", tagline: "Command the stage through powerful theatre, street plays, and storytelling.",
-    theme_primary: "#b45309", theme_secondary: "#f59e0b", theme_bg: "#fffbeb",
-    about: "The Drama Club produces thought-provoking Nukkad Natak (street plays), full-length stage dramas, mime acts, and scriptwriting workshops.",
-    offline_test_info: "On-spot monologue delivery and improvisation round conducted by the Drama Club directors.",
-    registration_link: "",
-    advantages: ["Master voice modulation, acting, scriptwriting, and stage direction", "Lead high-impact Nukkad Natak performances", "Work on stage lighting, props, and sound cues"],
-    benefits: ["Overcome public speaking fear and develop communication skills", "Earn cultural recognition certificates and fest awards", "Be part of a tight-knit creative family on campus"]
-  },
-  "Wordsworth (Literary Club)": {
-    category: "Cultural Clubs", tagline: "Sharpen your wit through debates, poetry slams, quizzes, and creative writing.",
-    theme_primary: "#0f766e", theme_secondary: "#14b8a6", theme_bg: "#f0fdfa",
-    about: "Wordsworth is KLE Technological University's premier literary society for debaters, writers, poets, quiz enthusiasts, and public speakers.",
-    offline_test_info: "Written creative/analytical round followed by a short extempore or debate round.",
-    registration_link: "",
-    advantages: ["Host and compete in Parliamentary Debates, MUNs, and Quiz Leagues", "Publish original stories and poetry in university magazines", "Weekly word games and book discussions"],
-    benefits: ["Directly boosts placement interview articulation and GD skills", "Mentorship from senior debaters and national quiz finalists", "Official literary organization certificates"]
-  },
-  "Kannada Balaga": {
-    category: "Cultural Clubs", tagline: "Celebrating the rich heritage of Kannada language, literature, and folk arts.",
-    theme_primary: "#dc2626", theme_secondary: "#eab308", theme_bg: "#fefce8",
-    about: "Kannada Balaga leads the grand Kannada Rajyotsava celebrations, folk arts showcases, Janapada songs, and literary events that unite the entire university.",
-    offline_test_info: "Offline interaction and cultural/literary screening conducted by the Kannada Balaga core committee.",
-    registration_link: "",
-    advantages: ["Organize the biggest campus festival—Kannada Rajyotsava", "Promote folk dance, literature, and theatre", "Engage with renowned Kannada writers and artists"],
-    benefits: ["Develop large-scale event management and leadership experience", "Cultural service recognition from the university", "Connect deeply with regional traditions"]
-  },
-  "IEEE": {
-    category: "Technical Clubs", tagline: "Advancing technology for humanity through global research and innovation.",
-    theme_primary: "#0284c7", theme_secondary: "#38bdf8", theme_bg: "#f0f9ff",
-    about: "The IEEE Student Branch connects students to the world's largest technical professional organization through research papers and symposiums.",
-    offline_test_info: "Offline technical aptitude test covering fundamentals of electronics, logic, and coding followed by an interview.",
-    registration_link: "",
-    advantages: ["Publish research papers in IEEE Xplore and attend conferences", "Access specialized SIGs in Robotics, ComSoc, and CS", "Hands-on technical workshops and circuit designathons"],
-    benefits: ["Globally recognized IEEE student leadership credentials", "Direct mentorship from faculty researchers", "Networking with IEEE branches across India"]
-  },
-  "IUCEE": {
-    category: "Technical Clubs", tagline: "Global engineering education, interdisciplinary projects, and sustainability.",
-    theme_primary: "#059669", theme_secondary: "#34d399", theme_bg: "#ecfdf5",
-    about: "The IUCEE Student Chapter empowers engineering students to solve real-world community problems through global collaboration.",
-    offline_test_info: "Problem-solving case study written test and personal interview with the chapter leads.",
-    registration_link: "",
-    advantages: ["Participate in Annual Student Forums and global webinars", "Build interdisciplinary engineering prototypes", "Collaborate with international universities"],
-    benefits: ["Strong project portfolio for higher studies and placements", "Leadership roles in national engineering conclaves", "Certificate of recognition from the IUCEE consortium"]
-  },
   "Code Club": {
     category: "Technical Clubs", tagline: "Master competitive programming, full-stack development, and 24-hour hackathons.",
     theme_primary: "#4f46e5", theme_secondary: "#818cf8", theme_bg: "#eef2ff",
@@ -366,107 +204,11 @@ const FALLBACK_CLUBS = {
     registration_link: "",
     advantages: ["Weekly Data Structures, Algorithms, and CP contests", "Build real production web/mobile apps and lead Hack Nights", "Peer code reviews and Git/GitHub bootcamps"],
     benefits: ["Crack top product-based software engineering placements", "Form elite teams for Smart India Hackathon (SIH)", "Mentorship from alumni at top tech companies"]
-  },
-  "Data Science": {
-    category: "Technical & Academic", tagline: "Turn raw data into intelligent AI, Machine Learning, and Deep Learning models.",
-    theme_primary: "#0891b2", theme_secondary: "#22d3ee", theme_bg: "#ecfeff",
-    about: "The Data Science Club explores applied Artificial Intelligence, LLMs, computer vision, statistical modeling, and Kaggle competitions.",
-    offline_test_info: "Offline test on Python, linear algebra, probability, and ML basics followed by a project discussion.",
-    registration_link: "",
-    advantages: ["Hands-on bootcamps in Python, Pandas, PyTorch, and GenAI", "Compete in internal and global Kaggle datathons", "Work on real research datasets with faculty"],
-    benefits: ["Build a standout GitHub portfolio of AI/ML projects", "Preparation for Data Scientist placement roles", "Co-author research papers in AI conferences"]
-  },
-  "Aerokle": {
-    category: "Technical Clubs", tagline: "Design, build, and fly RC aircraft, autonomous UAVs, and multi-rotor drones.",
-    theme_primary: "#1d4ed8", theme_secondary: "#60a5fa", theme_bg: "#eff6ff",
-    about: "Aerokle is KLE Tech's aeromodelling and autonomous drone design team, competing in SAE Aero Design and national UAV challenges.",
-    offline_test_info: "Offline written test on basic aerodynamics, mechanics, and embedded electronics followed by an interview.",
-    registration_link: "",
-    advantages: ["Design airframes in CAD/CFD and fabricate aircraft", "Program flight controllers and autonomous telemetry systems", "Live flight testing sessions on the sports ground"],
-    benefits: ["Represent KLE Tech at IIT techfests and SAE competitions", "Deep hands-on mastery of robotics and avionics", "Access to the dedicated Aerokle fabrication lab"]
-  },
-  "Rocketry": {
-    category: "Technical Clubs", tagline: "Pushing altitude limits with high-powered model rocketry, avionics, and payloads.",
-    theme_primary: "#c2410c", theme_secondary: "#fb923c", theme_bg: "#fff7ed",
-    about: "The Rocketry Club engineers solid-propellant model rockets, dual-deployment recovery systems, flight computers, and payloads.",
-    offline_test_info: "Offline test covering physics, propulsion/CAD fundamentals, or embedded sensors followed by an interview.",
-    registration_link: "",
-    advantages: ["Simulate rocket trajectories using OpenRocket and ANSYS", "Build onboard flight computers, altimeters, and GPS modules", "Participate in national rocket launch competitions"],
-    benefits: ["Rare aerospace and defense hardware engineering experience", "Strong profile for core engineering, ISRO, and MS applications", "Hands-on composite manufacturing"]
-  },
-  "Motorsports": {
-    category: "Technical Clubs", tagline: "Engineer, fabricate, and race custom ATVs, Formula, and Electric Vehicles.",
-    theme_primary: "#dc2626", theme_secondary: "#f87171", theme_bg: "#fef2f2",
-    about: "KLE Tech Motorsports designs and fabricates off-road BAJA buggies, Formula-style race cars, and electric vehicles from scratch.",
-    offline_test_info: "Offline technical test on automobile subsystems, CAD, or EV electronics plus workshop interview.",
-    registration_link: "",
-    advantages: ["Full vehicle design using SolidWorks/Onshape and ANSYS", "Hands-on welding, machining, suspension, and EV battery BMS", "Pit-crew experience at SAE BAJA and Formula Bharat"],
-    benefits: ["Top recruitment preference from core automotive and EV firms", "Learn project budgeting, sponsorship, and team management", "Access to the Motorsports garage and bay"]
-  },
-  "Higher Studies": {
-    category: "Academic Clubs", tagline: "Your launchpad for GATE, GRE, CAT, GMAT, and top global master's programs.",
-    theme_primary: "#1e40af", theme_secondary: "#3b82f6", theme_bg: "#eff6ff",
-    about: "The Higher Studies Club guides students aiming for IITs, IIMs, and global universities through study circles, mock tests, and mentorship.",
-    offline_test_info: "Offline aptitude & quantitative reasoning diagnostic test followed by a goal-alignment interaction.",
-    registration_link: "",
-    advantages: ["Weekly mock tests and study circles for GATE, GRE, and CAT", "SOP, LOR, and profile reviews by alumni at top universities", "Curated library of preparation materials"],
-    benefits: ["Stay consistent with a peer group targeting 99+ percentiles", "Direct Q&A sessions with recent admits to IISc, IITs, and IIMs", "Guidance on research internships"]
-  },
-  "Make in BVB": {
-    category: "Academic Clubs", tagline: "Turn bold ideas into hardware prototypes, startups, and market-ready products.",
-    theme_primary: "#ca8a04", theme_secondary: "#facc15", theme_bg: "#fefce8",
-    about: "Make in BVB fosters product design, rapid 3D prototyping, IoT innovation, and student entrepreneurship inside the maker space.",
-    offline_test_info: "Offline product-ideation challenge and technical/maker skill interaction.",
-    registration_link: "",
-    advantages: ["Access to 3D printers, laser cutters, Arduino/ESP32 kits", "Mentorship on patent filing and startup pitching", "Showcase prototypes at annual campus innovation expos"],
-    benefits: ["Seed funding and incubation pathways for student startups", "Interdisciplinary teamwork across engineering branches", "Build tangible hardware-software products"]
-  },
-  "Kletech Media": {
-    category: "Media & Communication", tagline: "The official lens and voice of KLE Tech—photography, filmmaking, and design.",
-    theme_primary: "#d97706", theme_secondary: "#fbbf24", theme_bg: "#fffbeb",
-    about: "Kletech Media is the official campus media house covering event photography, aftermovies, graphic design, and drone cinematography.",
-    offline_test_info: "Offline portfolio review and live campus photography/editing/design task.",
-    registration_link: "",
-    advantages: ["All-access media passes to every concert, fest, and tournament", "Workshops on DSLR photography, Premiere Pro, and Figma", "Produce official campus aftermovies"],
-    benefits: ["Build a professional creative portfolio while in college", "Collaborate with every club and department on campus", "Official Media House press badge and certificate"]
-  },
-  "Defence": {
-    category: "Defence & National Service", tagline: "Discipline, physical endurance, SSB preparation, and service to the nation.",
-    theme_primary: "#15803d", theme_secondary: "#22c55e", theme_bg: "#f0fdf4",
-    about: "The Defence Club prepares aspirants for careers in the Indian Armed Forces (CDS, AFCAT, NDA, SSB) through physical training and group tasks.",
-    offline_test_info: "Offline physical fitness assessment and written general awareness screening test.",
-    registration_link: "",
-    advantages: ["Structured SSB interview prep: GTO tasks, PPDT, and mock interviews", "Morning physical fitness and obstacle training", "Guest lectures by serving and retired Armed Forces officers"],
-    benefits: ["Develop officer-like qualities (OLQs) and mental toughness", "Focused preparation for CDS, AFCAT, and technical entries", "Lead Republic Day and IndependenceDay events"]
   }
 };
 
 let clubPageData = JSON.parse(JSON.stringify(FALLBACK_CLUBS[currentClubName] || FALLBACK_CLUBS["Code Club"]));
-let canEditThisClub = false;
 let acceptedMembersCount = 0;
-
-async function fetchWithTimeout(url, options = {}, ms = 1200) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), ms);
-  try {
-    return await fetch(url, { ...options, signal: controller.signal });
-  } finally {
-    clearTimeout(timer);
-  }
-}
-
-// STRICT OWNERSHIP: Verifies that the logged-in Club Head belongs EXCLUSIVELY to THIS exact club
-function getActiveEditorIdentity() {
-  const clubHead = JSON.parse(localStorage.getItem("kle_club_head") || "null");
-  if (clubHead && clubHead.email && clubHead.club_name === currentClubName) {
-    return {
-      email: clubHead.email,
-      usn: clubHead.usn || "",
-      club_name: clubHead.club_name
-    };
-  }
-  return { email: "", usn: "", club_name: "" };
-}
 
 function refreshStudentNav() {
   const btn = document.getElementById("studentNavBtn");
@@ -495,13 +237,13 @@ function renderClubUI() {
   document.getElementById("navClubTitle").textContent = currentClubName;
   document.getElementById("clubCatPill").textContent = clubPageData.category || "University Club";
   document.getElementById("clubNameHeading").textContent = currentClubName;
-  document.getElementById("clubTaglineText").textContent = clubPageData.tagline;
+  document.getElementById("clubTaglineText").textContent = clubPageData.tagline || "";
   document.getElementById("clubHeroEmoji").textContent = CLUB_EMOJIS[currentClubName] || "🏫";
   document.getElementById("clubHeroShort").textContent = currentClubName;
 
   document.getElementById("aboutTitle").textContent = "About " + currentClubName;
-  document.getElementById("aboutDescription").textContent = clubPageData.about;
-  document.getElementById("offlineTestText").textContent = clubPageData.offline_test_info;
+  document.getElementById("aboutDescription").textContent = clubPageData.about || "";
+  document.getElementById("offlineTestText").textContent = clubPageData.offline_test_info || "";
   document.getElementById("memberCountPill").textContent = `👥 ${acceptedMembersCount} Accepted Club Members`;
 
   const regBox = document.getElementById("regLinkContainer");
@@ -512,192 +254,41 @@ function renderClubUI() {
         🔗 Click Here to Register for Offline Test →
       </a>
     `;
-  } else if (canEditThisClub) {
-    regBox.innerHTML = `<span class="no-link-note">No registration link added yet. Click "✏️ Edit Test & Link" above to add your Google Form or registration URL.</span>`;
   } else {
     regBox.innerHTML = `<span class="no-link-note">Offline test registration link will be updated by the Club Head soon.</span>`;
   }
 
-  // STRICTLY HIDE OR SHOW EDIT CONTROLS ONLY FOR THE MATCHING CLUB HEAD
-  document.getElementById("memberEditorBar").style.display = canEditThisClub ? "block" : "none";
-  document.querySelectorAll(".member-only-btn").forEach(b => {
-    b.style.display = canEditThisClub ? "inline-block" : "none";
-  });
-
-  renderList("advantagesList", clubPageData.advantages || [], "advantages", "⚡");
-  renderList("benefitsList", clubPageData.benefits || [], "benefits", "🎁");
+  renderList("advantagesList", clubPageData.advantages || [], "⚡");
+  renderList("benefitsList", clubPageData.benefits || [], "🎁");
 }
 
-function renderList(containerId, items, type, icon) {
+function renderList(containerId, items, icon) {
   const ul = document.getElementById(containerId);
   if (!items.length) {
     ul.innerHTML = `<li style="color:#64748b;font-size:14px;padding:12px">No points added yet.</li>`;
     return;
   }
-
-  ul.innerHTML = items.map((text, idx) => `
+  ul.innerHTML = items.map(text => `
     <li class="item-row">
       <div class="item-text">
         <span class="item-icon">${icon}</span>
         <span>${text}</span>
-      </div>
-      <div class="item-actions" style="display:${canEditThisClub ? "flex" : "none"}">
-        <button type="button" class="sm-btn sm-edit" onclick="openItemModal('${type}', ${idx})">Edit</button>
-        <button type="button" class="sm-btn sm-del" onclick="deleteListItem('${type}', ${idx})">Remove</button>
       </div>
     </li>
   `).join("");
 }
 
 async function loadClubWebpage() {
-  const editorIdentity = getActiveEditorIdentity();
-
-  // STRICT CLIENT-SIDE CHECK: Must match current club name precisely
-  canEditThisClub = (editorIdentity.club_name === currentClubName && Boolean(editorIdentity.email));
   renderClubUI();
-
   try {
-    const res = await fetchWithTimeout(
-      `/api/club-page?club=${encodeURIComponent(currentClubName)}&email=${encodeURIComponent(editorIdentity.email)}&usn=${encodeURIComponent(editorIdentity.usn)}`
-    );
+    const res = await fetch(`/api/club-page?club=${encodeURIComponent(currentClubName)}`);
     if (res.ok) {
       const data = await res.json();
       clubPageData = { ...clubPageData, ...(data.page || {}) };
-      
-      // STRICT SERVER-SIDE CHECK: Server verifies authorization + exact club match
-      canEditThisClub = Boolean(data.can_edit) && (editorIdentity.club_name === currentClubName);
       acceptedMembersCount = data.accepted_members_count || 0;
       renderClubUI();
     }
-  } catch (err) {
-    // Keep strict fallback check
-    canEditThisClub = (editorIdentity.club_name === currentClubName && Boolean(editorIdentity.email));
-    renderClubUI();
-  }
-}
-
-function openInfoModal() {
-  if (!canEditThisClub) return;
-  document.getElementById("editTagline").value = clubPageData.tagline || "";
-  document.getElementById("editAbout").value = clubPageData.about || "";
-  document.getElementById("editTestInfo").value = clubPageData.offline_test_info || "";
-  document.getElementById("editRegLink").value = clubPageData.registration_link || "";
-  document.getElementById("editPrimaryCol").value = clubPageData.theme_primary || "#4f46e5";
-  document.getElementById("editSecondaryCol").value = clubPageData.theme_secondary || "#818cf8";
-  document.getElementById("editBgCol").value = clubPageData.theme_bg || "#eef2ff";
-  document.getElementById("infoModal").classList.add("open");
-}
-
-function closeInfoModal() {
-  document.getElementById("infoModal").classList.remove("open");
-}
-
-async function saveClubInfoAndColors() {
-  const editorIdentity = getActiveEditorIdentity();
-  if (!canEditThisClub || editorIdentity.club_name !== currentClubName) return;
-
-  clubPageData.tagline = document.getElementById("editTagline").value.trim();
-  clubPageData.about = document.getElementById("editAbout").value.trim();
-  clubPageData.offline_test_info = document.getElementById("editTestInfo").value.trim();
-  clubPageData.registration_link = document.getElementById("editRegLink").value.trim();
-  clubPageData.theme_primary = document.getElementById("editPrimaryCol").value;
-  clubPageData.theme_secondary = document.getElementById("editSecondaryCol").value;
-  clubPageData.theme_bg = document.getElementById("editBgCol").value;
-
-  closeInfoModal();
-  renderClubUI();
-
-  try {
-    await fetchWithTimeout("/api/club-page/update", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        club_name: currentClubName,
-        email: editorIdentity.email,
-        usn: editorIdentity.usn,
-        ...clubPageData
-      })
-    });
-  } catch (e) {}
-}
-
-function openItemModal(type, index) {
-  if (!canEditThisClub) return;
-  document.getElementById("itemType").value = type;
-  document.getElementById("itemIndex").value = index;
-  const labelWord = type === "advantages" ? "Advantage" : "Benefit";
-  document.getElementById("itemModalTitle").textContent = index >= 0 ? `Edit ${labelWord}` : `Add New ${labelWord}`;
-  document.getElementById("itemLabel").textContent = `${labelWord} Description`;
-
-  const arr = type === "advantages" ? clubPageData.advantages : clubPageData.benefits;
-  document.getElementById("itemTextInput").value = index >= 0 ? arr[index] : "";
-  document.getElementById("itemModal").classList.add("open");
-}
-
-function closeItemModal() {
-  document.getElementById("itemModal").classList.remove("open");
-}
-
-async function saveListItem() {
-  const editorIdentity = getActiveEditorIdentity();
-  if (!canEditThisClub || editorIdentity.club_name !== currentClubName) return;
-
-  const type = document.getElementById("itemType").value;
-  const idx = parseInt(document.getElementById("itemIndex").value, 10);
-  const text = document.getElementById("itemTextInput").value.trim();
-  if (!text) return;
-
-  const targetArr = type === "advantages" ? clubPageData.advantages : clubPageData.benefits;
-  if (idx >= 0) {
-    targetArr[idx] = text;
-  } else {
-    targetArr.push(text);
-  }
-
-  closeItemModal();
-  renderClubUI();
-
-  try {
-    await fetchWithTimeout("/api/club-page/update", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        club_name: currentClubName,
-        email: editorIdentity.email,
-        usn: editorIdentity.usn,
-        advantages: clubPageData.advantages,
-        benefits: clubPageData.benefits
-      })
-    });
-  } catch (e) {}
-}
-
-async function deleteListItem(type, index) {
-  const editorIdentity = getActiveEditorIdentity();
-  if (!canEditThisClub || editorIdentity.club_name !== currentClubName) return;
-  if (!confirm("Remove this point from the club page?")) return;
-
-  if (type === "advantages") {
-    clubPageData.advantages.splice(index, 1);
-  } else {
-    clubPageData.benefits.splice(index, 1);
-  }
-
-  renderClubUI();
-
-  try {
-    await fetchWithTimeout("/api/club-page/update", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        club_name: currentClubName,
-        email: editorIdentity.email,
-        usn: editorIdentity.usn,
-        advantages: clubPageData.advantages,
-        benefits: clubPageData.benefits
-      })
-    });
-  } catch (e) {}
+  } catch (err) {}
 }
 
 function ensureGoogleScriptLoaded() {
@@ -724,7 +315,6 @@ function triggerGoogleLogin() {
     alert("Google login is initializing, please click again in 1 second.");
     return;
   }
-
   const tokenClient = google.accounts.oauth2.initTokenClient({
     client_id: CLIENT_ID,
     scope: "openid email profile",
@@ -733,7 +323,6 @@ function triggerGoogleLogin() {
     callback: async tokenResponse => {
       if (tokenResponse.error) return;
       const usn = document.getElementById("usnInput").value.trim();
-
       const res = await fetch("/api/google-login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -746,14 +335,11 @@ function triggerGoogleLogin() {
         m.className = "msg err";
         return;
       }
-
       localStorage.setItem("kle_student", JSON.stringify(data.student));
       refreshStudentNav();
       closeLoginModal();
-      await loadClubWebpage();
     }
   });
-
   tokenClient.requestAccessToken();
 }
 
