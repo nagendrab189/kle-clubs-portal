@@ -22,7 +22,7 @@ a{text-decoration:none;color:inherit}
 .navbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:14px 42px;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06)}
 .logo{display:flex;align-items:center;gap:12px;font-weight:800;font-size:16px;color:var(--ink)}
 .logo-badge{padding:7px 13px;border-radius:10px;background:var(--club-grad);color:#fff;font-size:13px}
-.nav-right{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.nav-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .btn-top{padding:9px 16px;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;border:0;transition:transform .2s}
 .btn-top:hover{transform:translateY(-1px)}
 .btn-back{background:#111827;color:#fff}
@@ -57,10 +57,12 @@ a{text-decoration:none;color:inherit}
 .test-box b{display:block;font-size:13px;color:var(--primary);margin-bottom:4px;text-transform:uppercase}
 .test-box span{font-size:14px;color:var(--ink);line-height:1.6}
 
-.reg-link-box{margin-top:16px}
-.btn-reg-link{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:10px;background:var(--club-grad);color:#fff;font-size:13.5px;font-weight:700;box-shadow:0 8px 18px rgba(0,0,0,.12);transition:transform .2s}
+.reg-link-box{margin-top:18px}
+.btn-reg-link{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px 20px;border-radius:11px;border:0;background:var(--club-grad);color:#fff;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 8px 18px rgba(0,0,0,.14);transition:transform .2s}
 .btn-reg-link:hover{transform:translateY(-2px)}
-.no-link-note{font-size:13px;color:var(--slate);font-style:italic;margin-top:12px;display:block}
+.status-badge{display:inline-block;margin-top:10px;padding:8px 12px;border-radius:8px;font-size:12.5px;font-weight:700}
+.status-pending{background:#fef3c7;color:#b45309}
+.status-accepted{background:#dcfce7;color:#15803d}
 
 /* ADVANTAGES & BENEFITS GRID */
 .ab-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-bottom:32px}
@@ -132,11 +134,12 @@ a{text-decoration:none;color:inherit}
     <div class="card">
       <span class="sec-tag">Selection Procedure</span>
       <h2>Offline Test &amp; Audition</h2>
-      <p>Register using the link below and appear for the offline test conducted by the club panel:</p>
+      <p>Attend the offline test conducted by the club panel to join this club:</p>
       <div class="test-box">
         <b>📋 Offline Test Format</b>
         <span id="offlineTestText"></span>
       </div>
+      <!-- THIS BUTTON IS ONLY VISIBLE WHEN THE CLUB HEAD HAS PASTED A LINK IN DASHBOARD.HTML -->
       <div class="reg-link-box" id="regLinkContainer"></div>
     </div>
   </div>
@@ -161,7 +164,7 @@ a{text-decoration:none;color:inherit}
   <div class="modal-card" style="text-align:center">
     <button type="button" class="modal-close" onclick="closeLoginModal()">×</button>
     <h3 style="font-size:22px;margin-bottom:6px">Student College Login</h3>
-    <p style="font-size:13.5px;color:var(--slate);margin-bottom:16px">Sign in with your official <b>@kletech.ac.in</b> Google account.</p>
+    <p style="font-size:13.5px;color:var(--slate);margin-bottom:16px">Sign in with your official <b>@kletech.ac.in</b> Google account to open the offline test registration link and record your application.</p>
     <div id="loginMsg" class="msg"></div>
     <div class="field">
       <label>Your University USN (Optional if in email)</label>
@@ -186,33 +189,29 @@ const CLUB_EMOJIS = {
   "Higher Studies": "🎓", "Make in BVB": "🛠️", "Kletech Media": "🎬", "Defence": "🛡️"
 };
 
-const FALLBACK_CLUBS = {
-  "Dance Club": {
-    category: "Cultural Clubs", tagline: "Express rhythm, grace, and high-energy choreography on every campus stage.",
-    theme_primary: "#be185d", theme_secondary: "#f43f5e", theme_bg: "#fff1f2",
-    about: "The KLE Tech Dance Club brings together classical, contemporary, hip-hop, and folk dancers for campus fests and national cultural competitions.",
-    offline_test_info: "2-minute solo or duo live audition in front of the Dance Club core panel at the Student Activity Center.",
-    registration_link: "",
-    advantages: ["Perform at flagship university fests and inter-college cultural competitions", "Weekly choreography workshops led by senior dancers", "Access to dedicated practice studio slots"],
-    benefits: ["Official KLE Tech Cultural Certificate and credit points", "Priority travel sponsorship for national dance fests", "Build stage confidence, teamwork, and fitness"]
-  },
-  "Code Club": {
-    category: "Technical Clubs", tagline: "Master competitive programming, full-stack development, and 24-hour hackathons.",
-    theme_primary: "#4f46e5", theme_secondary: "#818cf8", theme_bg: "#eef2ff",
-    about: "Code Club is the hub for algorithmic problem solvers, open-source contributors, and hackathon builders at KLE Tech.",
-    offline_test_info: "Offline DSA & logic coding test (pen-and-paper + lab round) followed by a technical interview.",
-    registration_link: "",
-    advantages: ["Weekly Data Structures, Algorithms, and CP contests", "Build real production web/mobile apps and lead Hack Nights", "Peer code reviews and Git/GitHub bootcamps"],
-    benefits: ["Crack top product-based software engineering placements", "Form elite teams for Smart India Hackathon (SIH)", "Mentorship from alumni at top tech companies"]
-  }
+let clubPageData = {
+  category: "University Club",
+  tagline: "",
+  theme_primary: "#4f46e5",
+  theme_secondary: "#818cf8",
+  theme_bg: "#eef2ff",
+  about: "",
+  offline_test_info: "",
+  registration_link: "",
+  advantages: [],
+  benefits: []
 };
-
-let clubPageData = JSON.parse(JSON.stringify(FALLBACK_CLUBS[currentClubName] || FALLBACK_CLUBS["Code Club"]));
 let acceptedMembersCount = 0;
+let currentStudentStatus = null;
+let pendingRedirectAfterLogin = false;
+
+function getLoggedStudent() {
+  return JSON.parse(localStorage.getItem("kle_student") || "null");
+}
 
 function refreshStudentNav() {
   const btn = document.getElementById("studentNavBtn");
-  const student = JSON.parse(localStorage.getItem("kle_student") || "null");
+  const student = getLoggedStudent();
   if (student && student.email) {
     btn.textContent = "🟢 " + student.usn + " (Logout)";
     btn.onclick = () => {
@@ -223,10 +222,17 @@ function refreshStudentNav() {
     };
   } else {
     btn.textContent = "Student Login";
-    btn.onclick = () => openLoginModal();
+    btn.onclick = () => openLoginModal(false);
   }
 }
 refreshStudentNav();
+
+function normalizeExternalUrl(rawUrl) {
+  const trimmed = (rawUrl || "").trim();
+  if (!trimmed) return "";
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  return "https://" + trimmed;
+}
 
 function renderClubUI() {
   document.documentElement.style.setProperty("--primary", clubPageData.theme_primary || "#4f46e5");
@@ -246,20 +252,65 @@ function renderClubUI() {
   document.getElementById("offlineTestText").textContent = clubPageData.offline_test_info || "";
   document.getElementById("memberCountPill").textContent = `👥 ${acceptedMembersCount} Accepted Club Members`;
 
+  // ONLY RENDER THE BUTTON WHEN THE CLUB HEAD HAS PASTED A LINK
   const regBox = document.getElementById("regLinkContainer");
-  const cleanLink = (clubPageData.registration_link || "").trim();
+  const cleanLink = normalizeExternalUrl(clubPageData.registration_link);
+
+  let statusHtml = "";
+  if (currentStudentStatus === "accepted") {
+    statusHtml = `<div class="status-badge status-accepted">✅ You have passed the offline test and are an Official Member of ${currentClubName}!</div>`;
+  } else if (currentStudentStatus === "pending") {
+    statusHtml = `<div class="status-badge status-pending">⏳ Your application is recorded for ${currentClubName} (Pending Club Head approval).</div>`;
+  }
+
   if (cleanLink) {
     regBox.innerHTML = `
-      <a href="${cleanLink}" target="_blank" rel="noopener noreferrer" class="btn-reg-link">
-        🔗 Click Here to Register for Offline Test →
-      </a>
+      <button type="button" class="btn-reg-link" onclick="handleOfflineTestButtonClick()">
+        🔗 Open Offline Test Registration Form →
+      </button>
+      ${statusHtml}
     `;
   } else {
-    regBox.innerHTML = `<span class="no-link-note">Offline test registration link will be updated by the Club Head soon.</span>`;
+    // Button stays completely hidden when no link is pasted
+    regBox.innerHTML = statusHtml;
   }
 
   renderList("advantagesList", clubPageData.advantages || [], "⚡");
   renderList("benefitsList", clubPageData.benefits || [], "🎁");
+}
+
+// RECORDS THE STUDENT IN CLUB HEAD DASHBOARD + OPENS PASTED LINK
+async function handleOfflineTestButtonClick() {
+  const targetUrl = normalizeExternalUrl(clubPageData.registration_link);
+  if (!targetUrl) return;
+
+  const student = getLoggedStudent();
+  if (!student || !student.email) {
+    pendingRedirectAfterLogin = true;
+    openLoginModal(true);
+    return;
+  }
+
+  // Directly open the Club Head's pasted application URL
+  window.open(targetUrl, "_blank", "noopener,noreferrer");
+
+  // Record this student in the Club Head's Pending Offline Test Applicants list
+  try {
+    await fetch("/api/apply", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        student_name: student.student_name,
+        usn: student.usn,
+        email: student.email,
+        club_name: currentClubName
+      })
+    });
+    if (!currentStudentStatus) {
+      currentStudentStatus = "pending";
+      renderClubUI();
+    }
+  } catch (e) {}
 }
 
 function renderList(containerId, items, icon) {
@@ -279,16 +330,24 @@ function renderList(containerId, items, icon) {
 }
 
 async function loadClubWebpage() {
-  renderClubUI();
+  const student = getLoggedStudent();
+  const emailParam = student && student.email ? student.email : "";
+  const usnParam = student && student.usn ? student.usn : "";
+
   try {
-    const res = await fetch(`/api/club-page?club=${encodeURIComponent(currentClubName)}`);
+    const res = await fetch(
+      `/api/club-page?club=${encodeURIComponent(currentClubName)}&email=${encodeURIComponent(emailParam)}&usn=${encodeURIComponent(usnParam)}`
+    );
     if (res.ok) {
       const data = await res.json();
       clubPageData = { ...clubPageData, ...(data.page || {}) };
       acceptedMembersCount = data.accepted_members_count || 0;
+      currentStudentStatus = data.student_status || null;
       renderClubUI();
     }
-  } catch (err) {}
+  } catch (err) {
+    renderClubUI();
+  }
 }
 
 function ensureGoogleScriptLoaded() {
@@ -300,7 +359,8 @@ function ensureGoogleScriptLoaded() {
   document.head.appendChild(s);
 }
 
-function openLoginModal() {
+function openLoginModal(fromTestBtn) {
+  pendingRedirectAfterLogin = Boolean(fromTestBtn);
   ensureGoogleScriptLoaded();
   document.getElementById("loginMsg").className = "msg";
   document.getElementById("loginModal").classList.add("open");
@@ -338,6 +398,12 @@ function triggerGoogleLogin() {
       localStorage.setItem("kle_student", JSON.stringify(data.student));
       refreshStudentNav();
       closeLoginModal();
+      await loadClubWebpage();
+
+      if (pendingRedirectAfterLogin) {
+        pendingRedirectAfterLogin = false;
+        handleOfflineTestButtonClick();
+      }
     }
   });
   tokenClient.requestAccessToken();
