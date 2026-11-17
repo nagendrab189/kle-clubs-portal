@@ -16,7 +16,7 @@ process.on("unhandledRejection", err => {
 });
 
 // =========================================================
-// 2. BUILT-IN RATE LIMITER & CORS
+// 2. BUILT-IN RATE LIMITER (PROTECTS AGAINST SPAM & DDOS)
 // =========================================================
 const ipRequestMap = new Map();
 setInterval(() => ipRequestMap.clear(), 60 * 1000);
@@ -31,7 +31,7 @@ app.use((req, res, next) => {
     const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress || "unknown";
     const count = (ipRequestMap.get(ip) || 0) + 1;
     ipRequestMap.set(ip, count);
-    if (count > 240) {
+    if (count > 180) {
       return res.status(429).json({ error: "Too many requests! Please wait a moment and try again." });
     }
   }
@@ -58,6 +58,7 @@ app.get("/", (req, res) => {
 const DEVELOPER_EMAIL = "01fe25bcs252@kletech.ac.in";
 const MAX_ADMINS = 16;
 
+// SEPARATE DATABASE FOLDER FOR EACH CLUB (.json per club)
 const DB_FOLDER = path.join(__dirname, "databases");
 if (!fs.existsSync(DB_FOLDER)) {
   fs.mkdirSync(DB_FOLDER, { recursive: true });
@@ -288,6 +289,7 @@ const DEFAULT_CLUB_PAGES = {
 
 const ALL_CLUBS = Object.keys(DEFAULT_CLUB_PAGES);
 
+// GENERATES A SEPARATE .JSON FILE FOR EACH OF THE 16 CLUBS (e.g. databases/Code_Club.json)
 function getClubDbPath(clubName) {
   const safeName = clubName.replace(/[^a-zA-Z0-9]/g, "_");
   return path.join(DB_FOLDER, `${safeName}.json`);
@@ -470,6 +472,7 @@ function getSafeAdminList() {
   });
 }
 
+// VERIFIES DEVELOPER 01fe25bcs252@kletech.ac.in (VIA GOOGLE TOKEN OR HEAD LOGIN)
 async function isVerifiedDeveloper(body) {
   const { access_token, identifier, password } = body || {};
 
@@ -668,7 +671,7 @@ app.post("/api/events/delete", (req, res) => {
 });
 
 // =========================================================
-// ADMIN & STUDENT APIs
+// ADMIN & DEVELOPER APIs (01fe25bcs252@kletech.ac.in)
 // =========================================================
 app.get("/api/admin-status", (req, res) => {
   const admins = readAdmins();
@@ -844,6 +847,7 @@ app.post("/api/remove-member", (req, res) => {
   });
 });
 
+// DEVELOPER CONTROL PANEL ENDPOINTS (ONLY FOR 01fe25bcs252@kletech.ac.in)
 app.post("/api/dev-google-login", async (req, res) => {
   try {
     const allowed = await isVerifiedDeveloper(req.body);
@@ -1001,7 +1005,7 @@ app.post("/api/google-login", async (req, res) => {
   }
 });
 
-// RECORDS STUDENT WHEN THEY CLICK THE OFFLINE TEST LINK BUTTON
+// RECORDS STUDENT INTO THAT CLUB'S SEPARATE .JSON FILE WHEN THEY CLICK THE OFFLINE TEST LINK
 const handleClubApply = (req, res) => {
   const { student_name, usn, email, club_name } = req.body;
   if (!student_name || !usn || !email || !club_name) {
@@ -1023,8 +1027,8 @@ const handleClubApply = (req, res) => {
     return res.json({
       status: existing.status,
       message: existing.status === "accepted"
-        ? `You are already an accepted member of ${club_name}!`
-        : `Your application for ${club_name} is already recorded and pending offline test review.`
+        ? `You have already passed the test and joined ${club_name}!`
+        : `Your application for ${club_name} is already recorded. Please attend the offline test and wait for the Club Head to accept your application.`
     });
   }
 
@@ -1040,7 +1044,7 @@ const handleClubApply = (req, res) => {
   saveClubRecords(club_name, records);
   res.json({
     status: "pending",
-    message: `Application recorded for ${club_name}! Complete the offline test form. Once you pass, the Club Head will accept you into the club.`
+    message: `Application submitted for ${club_name}! Please attend the offline test. Once you pass, the Club Head will accept you into the club.`
   });
 };
 
@@ -1076,7 +1080,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, "0.0.0.0", () => {
   console.log("\n====================================================");
   console.log(`🚀 5,000-User High-Speed Server Running on Port ${PORT}`);
-  console.log(`⚡ RAM Cache Active for All ${ALL_CLUBS.length} Club Databases`);
+  console.log(`⚡ RAM Cache Active for All ${ALL_CLUBS.length} Separate Club Databases`);
   console.log(`👑 Developer Access Locked To: ${DEVELOPER_EMAIL}`);
   console.log("====================================================\n");
 });
