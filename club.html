@@ -135,7 +135,7 @@ a{text-decoration:none;color:inherit}
   </div>
 </section>
 
-<!-- HIDDEN FOR STUDENTS: SHOWN ONLY TO THE REGISTERED CLUB HEAD OF THIS SPECIFIC CLUB -->
+<!-- STRICTLY VISIBLE ONLY TO THE CORRECT CLUB HEAD FOR THIS SPECIFIC CLUB -->
 <div class="member-editor-bar" id="memberEditorBar">
   <div class="editor-banner">
     <div>
@@ -455,7 +455,7 @@ async function fetchWithTimeout(url, options = {}, ms = 1200) {
   }
 }
 
-// STRICT OWNERSHIP: Checks if logged-in Club Head matches THIS exact club page
+// STRICT OWNERSHIP: Verifies that the logged-in Club Head belongs EXCLUSIVELY to THIS exact club
 function getActiveEditorIdentity() {
   const clubHead = JSON.parse(localStorage.getItem("kle_club_head") || "null");
   if (clubHead && clubHead.email && clubHead.club_name === currentClubName) {
@@ -504,7 +504,6 @@ function renderClubUI() {
   document.getElementById("offlineTestText").textContent = clubPageData.offline_test_info;
   document.getElementById("memberCountPill").textContent = `👥 ${acceptedMembersCount} Accepted Club Members`;
 
-  // Render Offline Test Registration Link
   const regBox = document.getElementById("regLinkContainer");
   const cleanLink = (clubPageData.registration_link || "").trim();
   if (cleanLink) {
@@ -519,7 +518,7 @@ function renderClubUI() {
     regBox.innerHTML = `<span class="no-link-note">Offline test registration link will be updated by the Club Head soon.</span>`;
   }
 
-  // STRICTLY HIDE OR SHOW EDIT BUTTONS BASED ON OWNERSHIP
+  // STRICTLY HIDE OR SHOW EDIT CONTROLS ONLY FOR THE MATCHING CLUB HEAD
   document.getElementById("memberEditorBar").style.display = canEditThisClub ? "block" : "none";
   document.querySelectorAll(".member-only-btn").forEach(b => {
     b.style.display = canEditThisClub ? "inline-block" : "none";
@@ -553,8 +552,8 @@ function renderList(containerId, items, type, icon) {
 async function loadClubWebpage() {
   const editorIdentity = getActiveEditorIdentity();
 
-  // DEFAULT TO FALSE: Normal students can NEVER edit
-  canEditThisClub = false;
+  // STRICT CLIENT-SIDE CHECK: Must match current club name precisely
+  canEditThisClub = (editorIdentity.club_name === currentClubName && Boolean(editorIdentity.email));
   renderClubUI();
 
   try {
@@ -564,13 +563,14 @@ async function loadClubWebpage() {
     if (res.ok) {
       const data = await res.json();
       clubPageData = { ...clubPageData, ...(data.page || {}) };
-      // STRICT VERIFICATION: Server verifies if logged-in Club Head matches THIS exact club page
+      
+      // STRICT SERVER-SIDE CHECK: Server verifies authorization + exact club match
       canEditThisClub = Boolean(data.can_edit) && (editorIdentity.club_name === currentClubName);
       acceptedMembersCount = data.accepted_members_count || 0;
       renderClubUI();
     }
   } catch (err) {
-    // If offline, fallback checks local storage identity match
+    // Keep strict fallback check
     canEditThisClub = (editorIdentity.club_name === currentClubName && Boolean(editorIdentity.email));
     renderClubUI();
   }
