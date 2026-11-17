@@ -3,792 +3,378 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="referrer" content="no-referrer-when-downgrade" />
-<title>KLE Technological University - Clubs</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+<title>KLE Technological University — Student Clubs Portal</title>
 <style>
 :root{
-  --gold:#d4a024; --red:#c8102e; --plum:#4e3876; --ink:#0f172a; --slate:#475569;
-  --bg:#fbf9f6; --card:#ffffff; --line:#ece7e0;
-  --grad:linear-gradient(90deg,#d4a024 0%,#c82333 100%);
-  --hero-grad:linear-gradient(95deg,rgba(180,134,48,.93) 0%,rgba(108,78,108,.9) 35%,rgba(78,56,118,.9) 58%,rgba(165,32,64,.93) 85%,rgba(205,133,45,.93) 100%);
+  --crimson:#b91c1c;
+  --crimson-dark:#7f1d1d;
+  --gold:#d97706;
+  --ink:#0f172a;
+  --slate:#475569;
+  --bg:#f8fafc;
+  --line:#e2e8f0;
 }
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:#1f2937;overflow-x:hidden}
+body{background:var(--bg);color:var(--ink);min-height:100vh}
 a{text-decoration:none;color:inherit}
-.container{max-width:1240px;margin:0 auto;padding:0 32px}
 
-/* NAV */
-.navbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:12px 48px;background:rgba(255,255,255,.85);backdrop-filter:blur(14px);border-bottom:1px solid rgba(0,0,0,.05)}
-.logo{display:flex;align-items:center;gap:12px}
-.logo-img{height:44px;width:auto;object-fit:contain}
-.logo-mark{display:none;width:44px;height:44px;border-radius:12px;background:var(--grad);color:#fff;font-weight:800;align-items:center;justify-content:center;font-size:15px}
-.logo-text{display:flex;flex-direction:column;line-height:1.15}
-.logo-title{font-size:16px;font-weight:800;color:#1e293b;letter-spacing:-.3px}
-.logo-subtitle{font-size:11px;font-weight:600;letter-spacing:1.4px;color:var(--slate);text-transform:uppercase}
-.nav-links{display:flex;list-style:none;gap:34px}
-.nav-links a{font-size:14px;font-weight:600;color:#334155;position:relative;padding:6px 0;transition:color .2s}
-.nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--grad);transition:width .25s}
-.nav-links a:hover{color:var(--red)}
-.nav-links a:hover::after{width:100%}
-.nav-actions{display:flex;gap:10px;align-items:center}
-.btn-nav{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:8px;font-size:13px;font-weight:600;color:#fff;transition:transform .2s,box-shadow .2s}
-.btn-nav:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.18)}
-.btn-login{background:#111827}
-.btn-register{background:var(--grad)}
-.burger{display:none;background:none;border:0;cursor:pointer;padding:6px}
-.burger span{display:block;width:24px;height:2.5px;background:#1e293b;margin:5px 0;border-radius:2px}
+/* NAVBAR */
+.navbar{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:14px 42px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:16px}
+.brand-badge{background:linear-gradient(135deg,var(--crimson),var(--gold));color:#fff;padding:7px 13px;border-radius:10px;font-size:13px}
+.nav-links{display:flex;align-items:center;gap:22px;font-size:14px;font-weight:700;color:var(--slate)}
+.nav-links a:hover{color:var(--crimson)}
+.nav-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.btn-nav{padding:9px 16px;border-radius:9px;font-size:13px;font-weight:700;border:0;cursor:pointer;transition:transform .2s}
+.btn-nav:hover{transform:translateY(-1px)}
+.btn-head{background:#0f172a;color:#fff}
+.btn-student{background:linear-gradient(135deg,var(--crimson),var(--gold));color:#fff}
 
 /* HERO */
-.hero{position:relative;min-height:calc(100vh - 72px);background:var(--hero-grad),url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;display:flex;align-items:center;padding:70px 80px;overflow:hidden}
-.ring{position:absolute;border-radius:50%;pointer-events:none}
-.ring.a{top:-90px;left:36%;width:280px;height:280px;border:36px solid rgba(220,65,85,.28);animation:float 9s ease-in-out infinite}
-.ring.b{bottom:-80px;left:-80px;width:240px;height:240px;border:34px solid rgba(235,130,55,.35);animation:float 11s ease-in-out infinite reverse}
-.ring.c{top:30%;right:-60px;width:160px;height:160px;border:22px solid rgba(255,255,255,.14);animation:float 13s ease-in-out infinite}
-@keyframes float{50%{transform:translateY(22px) rotate(8deg)}}
-.hero-container{width:100%;max-width:1320px;margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;position:relative;z-index:2}
-.badge-pill{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#1e293b;font-size:13px;font-weight:700;padding:8px 18px;border-radius:50px;margin-bottom:22px;box-shadow:0 4px 14px rgba(0,0,0,.12)}
-.badge-pill i{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 0 rgba(34,197,94,.6);animation:pulse 2s infinite}
-@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
-.hero-title{font-family:'Playfair Display',serif;font-size:58px;font-weight:800;color:#fff;line-height:1.08;margin-bottom:18px;letter-spacing:-.5px;text-shadow:0 4px 24px rgba(0,0,0,.18)}
-.hero-title em{font-style:italic;color:#ffe9a8}
-.hero-desc{font-size:16px;line-height:1.7;color:rgba(255,255,255,.93);max-width:520px;margin-bottom:30px}
-.cta-row{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:42px}
-.cta-buttons{display:flex;gap:12px;flex-wrap:wrap}
-.btn-hero{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 26px;border-radius:10px;font-size:14px;font-weight:700;color:#fff;box-shadow:0 8px 20px rgba(0,0,0,.2);transition:transform .2s}
-.btn-hero:hover{transform:translateY(-3px)}
-.btn-explore{background:var(--grad)}
-.btn-events{background:#1f242d}
-.rating-card{background:#fff;padding:12px 18px;border-radius:10px;display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:600;color:#1e293b;box-shadow:0 8px 22px rgba(0,0,0,.14)}
-.stars{color:#f59e0b;letter-spacing:2px}
-.categories-heading{font-size:18px;font-weight:700;color:#fff;margin-bottom:14px}
-.category-row{display:flex;flex-wrap:wrap;gap:10px}
-.chip{background:#fff;padding:10px 16px;border-radius:10px;font-size:12.5px;font-weight:600;color:#1e293b;border:1.5px solid transparent;box-shadow:0 3px 10px rgba(0,0,0,.08);transition:transform .2s,box-shadow .2s;cursor:pointer}
-.chip:hover{transform:translateY(-3px);box-shadow:0 8px 18px rgba(0,0,0,.14)}
-.chip.cultural{border-color:#facc15}
-.chip.technical{border-color:#f87171}
-.chip.academic{border-color:#60a5fa}
-.chip.media{border-color:#fbbf24}
-.chip.defence{border-color:#4ade80}
+.hero{background:linear-gradient(135deg,#0f172a 0%,#1e293b 55%,#7f1d1d 100%);color:#fff;padding:76px 40px;position:relative;overflow:hidden}
+.hero-inner{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+.uni-pill{display:inline-block;background:rgba(255,255,255,.14);padding:7px 16px;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px}
+.hero h1{font-family:Georgia,'Times New Roman',serif;font-size:48px;line-height:1.12;margin-bottom:16px}
+.hero p{font-size:16.5px;line-height:1.68;opacity:.92;max-width:600px;margin-bottom:28px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-hero-primary{background:linear-gradient(135deg,var(--gold),var(--crimson));color:#fff;padding:13px 24px;border-radius:11px;font-weight:800;font-size:14px}
+.btn-hero-sec{background:rgba(255,255,255,.14);color:#fff;padding:13px 22px;border-radius:11px;font-weight:700;font-size:14px;border:1px solid rgba(255,255,255,.24)}
 
-.hero-image-box{position:relative;display:flex;justify-content:center}
-.brush-frame{width:100%;max-width:580px;height:480px;overflow:hidden;box-shadow:0 24px 50px rgba(0,0,0,.3);
-  clip-path:polygon(4% 12%,18% 9%,34% 6%,56% 4%,82% 2%,96% 3%,95% 16%,98% 28%,95% 42%,98% 60%,94% 78%,96% 93%,76% 91%,54% 94%,32% 96%,14% 98%,3% 95%,5% 78%,2% 62%,5% 44%,2% 26%)}
-.brush-frame img{width:100%;height:100%;object-fit:cover}
-.float-card{position:absolute;background:#fff;border-radius:14px;padding:12px 16px;box-shadow:0 14px 30px rgba(0,0,0,.22);display:flex;align-items:center;gap:10px;font-size:12.5px;font-weight:700;color:#1e293b;animation:float 7s ease-in-out infinite}
-.float-card small{display:block;font-weight:500;color:var(--slate);font-size:11px}
-.float-card .ic{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-size:18px}
-.fc1{left:-6px;bottom:60px}.fc1 .ic{background:#fef3c7}
-.fc2{right:0;top:30px;animation-delay:-3s}.fc2 .ic{background:#fce7f3}
+.hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.h-stat{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.15);padding:22px;border-radius:18px;backdrop-filter:blur(8px)}
+.h-stat b{display:block;font-size:32px;margin-bottom:4px}
+.h-stat span{font-size:13px;opacity:.85}
 
 /* SECTIONS */
-section{padding:96px 0}
-.eyebrow{display:inline-block;font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:10px}
-.sec-title{font-family:'Playfair Display',serif;font-size:40px;color:var(--ink);line-height:1.15;margin-bottom:14px}
-.sec-sub{color:var(--slate);font-size:16px;line-height:1.7;max-width:620px}
-.center{text-align:center}.center .sec-sub{margin:0 auto}
+.section{max-width:1180px;margin:56px auto;padding:0 24px}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;margin-bottom:26px}
+.sec-tag{font-size:12px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;color:var(--crimson);display:block;margin-bottom:6px}
+.sec-head h2{font-family:Georgia,'Times New Roman',serif;font-size:34px;color:var(--ink)}
 
-/* STATS */
-.stats{padding:0;margin-top:-56px;position:relative;z-index:5}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border-radius:22px;box-shadow:0 24px 60px rgba(60,30,60,.14);overflow:hidden}
-.stat{padding:34px 20px;text-align:center;border-right:1px solid var(--line)}
-.stat:last-child{border:0}
-.stat b{display:block;font-size:40px;font-weight:800;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.stat span{font-size:13px;font-weight:600;color:var(--slate)}
+/* FILTER PILLS */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
+.filter-btn{padding:9px 16px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:13px;font-weight:700;color:var(--slate);cursor:pointer}
+.filter-btn.active{background:var(--ink);color:#fff;border-color:var(--ink)}
 
-/* CLUBS */
-.toolbar{display:flex;gap:16px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin:40px 0 32px}
-.filters{display:flex;gap:8px;flex-wrap:wrap}
-.filter{border:1.5px solid var(--line);background:#fff;padding:9px 18px;border-radius:50px;font-size:13px;font-weight:600;color:#334155;cursor:pointer;transition:all .2s}
-.filter:hover{border-color:var(--gold)}
-.filter.active{background:var(--grad);color:#fff;border-color:transparent;box-shadow:0 6px 16px rgba(200,35,51,.28)}
-.search{position:relative}
-.search input{padding:11px 16px 11px 40px;border:1.5px solid var(--line);border-radius:50px;font-size:14px;width:260px;outline:none;background:#fff;transition:border .2s,box-shadow .2s}
-.search input:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(212,160,36,.15)}
-.search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
-.club{background:var(--card);border-radius:20px;padding:26px;border:1px solid var(--line);border-top:4px solid var(--c);position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;cursor:pointer}
-.club::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:var(--c,#d4a024)}
-.club:hover{transform:translateY(-8px);box-shadow:0 22px 44px rgba(60,30,60,.14)}
-.club .emoji{width:75px;height:75px;border-radius:16px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:28px;background:#f1f5f9;margin-bottom:15px}
-.club-image{width:100%;height:100%;object-fit:cover;display:block}
-.tag{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--c)}
-.club h3{font-size:19px;margin:6px 0 8px;color:var(--ink)}
-.club p{font-size:14px;line-height:1.6;color:var(--slate);margin-bottom:20px}
-.club-foot{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:600;color:#334155}
-.join{padding:8px 16px;border-radius:8px;background:var(--ink);color:#fff;font-size:12.5px;font-weight:700;transition:background .2s;text-decoration:none;cursor:pointer}
-.join:hover{background:var(--red)}
-.join.pending{background:#d97706}
-.join.accepted{background:#16a34a}
-.empty{display:none;text-align:center;padding:50px;color:var(--slate)}
+/* CLUBS GRID */
+.clubs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:22px}
+.club-card{background:#fff;border-radius:20px;padding:24px;border:1px solid var(--line);box-shadow:0 8px 24px rgba(15,23,42,.04);display:flex;flex-direction:column;justify-content:space-between;transition:transform .2s,box-shadow .2s}
+.club-card:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(15,23,42,.09)}
+.club-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.club-emoji{width:50px;height:50px;border-radius:14px;background:#f1f5f9;display:grid;place-items:center;font-size:26px}
+.club-cat{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;padding:5px 10px;border-radius:999px;background:#fef2f2;color:var(--crimson)}
+.club-card h3{font-size:19px;margin-bottom:8px;color:var(--ink)}
+.club-card p{font-size:13.5px;line-height:1.6;color:var(--slate);margin-bottom:18px}
+.club-status-pill{display:inline-block;margin-bottom:10px;padding:5px 10px;border-radius:8px;font-size:11.5px;font-weight:700}
+.st-accepted{background:#dcfce7;color:#15803d}
+.st-pending{background:#fef3c7;color:#b45309}
+.btn-explore{display:block;text-align:center;width:100%;padding:11px 14px;border-radius:10px;background:#0f172a;color:#fff;font-size:13px;font-weight:700;transition:background .2s}
+.btn-explore:hover{background:var(--crimson)}
 
-/* EVENTS */
-.events{background:linear-gradient(180deg,#fff 0%,#f7f1ea 100%)}
-.ev-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-top:44px}
-.event{display:flex;gap:20px;background:#fff;border-radius:20px;padding:22px;border:1px solid var(--line);transition:transform .3s,box-shadow .3s}
-.event:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(60,30,60,.12)}
-.date{flex:0 0 74px;height:84px;border-radius:16px;background:var(--hero-grad);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.date b{font-size:28px;line-height:1}.date span{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-top:3px}
-.event h4{font-size:17px;color:var(--ink);margin-bottom:6px}
-.event p{font-size:13.5px;color:var(--slate);line-height:1.55;margin-bottom:10px}
-.meta{font-size:12.5px;font-weight:600;color:#64748b}
+/* EVENTS GRID */
+.events-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:20px}
+.event-card{background:#fff;border-radius:18px;padding:22px;border:1px solid var(--line);border-left:5px solid var(--crimson);box-shadow:0 6px 20px rgba(15,23,42,.04)}
+.ev-club{font-size:11.5px;font-weight:800;text-transform:uppercase;color:var(--crimson);margin-bottom:6px;display:block}
+.event-card h3{font-size:18px;margin-bottom:8px}
+.event-card p{font-size:13.5px;color:var(--slate);line-height:1.55;margin-bottom:12px}
+.ev-meta{font-size:12.5px;font-weight:700;color:var(--ink);display:flex;flex-direction:column;gap:4px}
 
-/* STEPS */
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:50px}
-.step{text-align:center;padding:34px 26px;border-radius:22px;background:#fff;border:1px solid var(--line);position:relative}
-.step .n{width:54px;height:54px;border-radius:50%;background:var(--grad);color:#fff;font-weight:800;font-size:20px;display:grid;place-items:center;margin:0 auto 18px;box-shadow:0 8px 20px rgba(200,35,51,.3)}
-.step h4{font-size:18px;margin-bottom:8px;color:var(--ink)}
-.step p{font-size:14px;color:var(--slate);line-height:1.6}
+/* STUDENT LOGIN MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.62);backdrop-filter:blur(5px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal-card{width:100%;max-width:450px;background:#fff;border-radius:22px;padding:28px 26px;box-shadow:0 24px 60px rgba(0,0,0,.28);position:relative;text-align:center}
+.modal-close{position:absolute;top:14px;right:16px;width:32px;height:32px;border-radius:50%;border:0;background:#f1f5f9;font-size:18px;font-weight:700;cursor:pointer}
+.field{margin-bottom:14px;text-align:left}
+.field label{display:block;font-size:12.5px;font-weight:700;color:#334155;margin-bottom:5px}
+.field input{width:100%;padding:10px 13px;border:1.5px solid var(--line);border-radius:10px;font-size:14px;outline:none}
+.btn-save{width:100%;padding:13px;border-radius:10px;border:0;background:#0f172a;color:#fff;font-size:14px;font-weight:700;cursor:pointer}
+.msg{display:none;padding:10px 12px;border-radius:8px;font-size:13px;font-weight:600;margin-bottom:12px}
+.msg.err{display:block;background:#fef2f2;color:#dc2626}
 
-/* CTA */
-.cta-band{margin:0 32px 90px;border-radius:32px;background:var(--hero-grad);padding:72px 32px;text-align:center;position:relative;overflow:hidden;color:#fff}
-.cta-band::before{content:"";position:absolute;right:-70px;top:-70px;width:240px;height:240px;border-radius:50%;border:34px solid rgba(255,255,255,.14)}
-.cta-band h2{font-family:'Playfair Display',serif;font-size:40px;margin-bottom:12px;position:relative}
-.cta-band p{max-width:520px;margin:0 auto 28px;line-height:1.7;opacity:.94;position:relative}
-.btn-white{display:inline-block;background:#fff;color:#1e293b;padding:15px 32px;border-radius:12px;font-weight:800;font-size:14.5px;box-shadow:0 12px 28px rgba(0,0,0,.25);transition:transform .2s;position:relative}
-.btn-white:hover{transform:translateY(-3px)}
+footer{background:#0f172a;color:#94a3b8;text-align:center;padding:32px 20px;margin-top:70px;font-size:13.5px}
 
-/* FOOTER */
-footer{background:#14101c;color:#cbd5e1;padding:64px 0 28px}
-.foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.2fr;gap:40px;margin-bottom:40px}
-footer h5{color:#fff;font-size:14px;margin-bottom:16px;letter-spacing:.5px}
-footer li{list-style:none;margin-bottom:10px;font-size:14px}
-footer a:hover{color:var(--gold)}
-footer p{font-size:14px;line-height:1.7;max-width:320px}
-.copy{border-top:1px solid rgba(255,255,255,.1);padding-top:22px;font-size:13px;text-align:center;color:#94a3b8}
-
-/* REVEAL */
-.reveal{opacity:1;transform:none;transition:opacity .7s ease,transform .7s ease}
-
-/* IN-PAGE STUDENT LOGIN POPUP */
-.login-overlay{position:fixed;inset:0;background:rgba(15,23,42,.6);backdrop-filter:blur(5px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
-.login-overlay.open{display:flex}
-.login-card{width:100%;max-width:420px;background:#fff;padding:32px 28px;border-radius:20px;border:1px solid var(--line);box-shadow:0 24px 60px rgba(0,0,0,.25);position:relative;text-align:center}
-.login-close{position:absolute;top:14px;right:16px;width:32px;height:32px;border-radius:50%;border:0;background:#f1f5f9;color:#334155;font-size:18px;font-weight:700;cursor:pointer}
-.login-pill{display:inline-block;background:#fef2f2;color:var(--red);font-size:12px;font-weight:700;padding:5px 14px;border-radius:50px;margin-bottom:12px}
-.login-card h3{font-size:22px;font-weight:800;color:var(--ink);margin-bottom:6px}
-.login-card p{font-size:13.5px;color:var(--slate);line-height:1.55;margin-bottom:18px}
-.login-field{text-align:left;margin-bottom:16px}
-.login-field label{display:block;font-size:12.5px;font-weight:700;color:#334155;margin-bottom:6px}
-.login-field input{width:100%;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:14px;outline:none}
-.login-field input:focus{border-color:var(--gold)}
-.google-btn{width:100%;padding:13px 16px;border-radius:10px;border:0;background:#111827;color:#fff;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px}
-.google-btn:hover{background:#1e293b}
-.login-msg{font-size:13px;font-weight:600;margin-bottom:14px;display:none;padding:10px 12px;border-radius:8px;text-align:left}
-.login-msg.err{display:block;background:#fef2f2;color:#dc2626}
-.login-msg.ok{display:block;background:#f0fdf4;color:#16a34a}
-
-@media(max-width:1024px){
-  .hero{padding:50px 28px}.hero-container{grid-template-columns:1fr}
-  .navbar{padding:12px 24px}.stats-grid{grid-template-columns:repeat(2,1fr)}
-  .stat:nth-child(2){border-right:0}.stat:nth-child(-n+2){border-bottom:1px solid var(--line)}
-  .foot-grid{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr}
-}
-@media(max-width:768px){
-  #navLinks{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;flex-direction:column;gap:0;padding:12px 24px 20px;box-shadow:0 14px 24px rgba(0,0,0,.08)}
-  #navLinks.open{display:flex}
-  .nav-links li a{display:block;padding:12px 0}
-  .burger{display:block}
-  .btn-nav{padding:8px 12px;font-size:12px}
-  .hero-title{font-size:40px}.brush-frame{height:340px}.fc1,.fc2{display:none}
-  .sec-title,.cta-band h2{font-size:30px}.container{padding:0 20px}.cta-band{margin:0 16px 70px}
-  .search input{width:100%}.search{width:100%}.foot-grid{grid-template-columns:1fr}
-  section{padding:70px 0}
+@media(max-width:860px){
+  .hero-inner{grid-template-columns:1fr}
+  .hero h1{font-size:36px}
+  .navbar{padding:12px 20px}
+  .nav-links{display:none}
 }
 </style>
 </head>
 <body>
 
 <header class="navbar">
-  <a href="#home" class="logo">
-    <img src="KLE-Tech-University-Logo.jpg" alt="KLE Technological University Logo" class="logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-    <span class="logo-mark">KLE</span>
-    <div class="logo-text">
-      <span class="logo-title">KLE Technological</span>
-      <span class="logo-subtitle">University</span>
-    </div>
+  <a href="front.html" class="brand">
+    <span class="brand-badge">KLE</span>
+    <span>KLE Tech Student Clubs</span>
   </a>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="#home">Home</a></li>
-    <li><a href="#clubs">Clubs</a></li>
-    <li><a href="#events">Events</a></li>
-    <li><a href="#how">How it works</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
+  <nav class="nav-links">
+    <a href="#clubs">All 16 Clubs</a>
+    <a href="#events">Upcoming Events</a>
+    <a href="dashboard.html">Club Head Portal</a>
+  </nav>
   <div class="nav-actions">
-    <a href="dashboard.html" class="btn-nav btn-login">Club Head Login</a>
-    <a href="#" class="btn-nav btn-register" id="studentNavBtn">Student Login</a>
-    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <a href="dashboard.html" class="btn-nav btn-head">Club Head Portal</a>
+    <button type="button" class="btn-nav btn-student" id="studentNavBtn">Student Login</button>
   </div>
 </header>
 
-<section class="hero" id="home" style="padding-top:70px;padding-bottom:110px">
-  <div class="ring a"></div><div class="ring b"></div><div class="ring c"></div>
-  <div class="hero-container">
+<section class="hero">
+  <div class="hero-inner">
     <div>
-      <span class="badge-pill"><i></i>#1 University Clubs Platform</span>
-      <h1 class="hero-title">Discover &amp; <em>Explore</em> Clubs</h1>
-      <p class="hero-desc">Click any club to explore its dedicated webpage, read its advantages and benefits, and register for the offline selection test.</p>
-      <div class="cta-row">
-        <div class="cta-buttons">
-          <a href="#clubs" class="btn-hero btn-explore">Explore Clubs →</a>
-          <a href="#events" class="btn-hero btn-events">View Events</a>
-        </div>
-        <div class="rating-card"><span class="stars">★★★★★</span><span>Over 1,330+ students have a club.</span></div>
-      </div>
-      <h2 class="categories-heading">Available Club Categories</h2>
-      <div class="category-row">
-        <a class="chip cultural" data-go="cultural">🎭 Cultural Clubs</a>
-        <a class="chip technical" data-go="technical">⚙️ Technical Clubs</a>
-        <a class="chip academic" data-go="academic">📘 Academic Clubs</a>
-        <a class="chip media" data-go="media">🎬 Media &amp; Communication</a>
-        <a class="chip defence" data-go="defence">🛡️ Defence &amp; National Service</a>
+      <span class="uni-pill">KLE Technological University • Hubballi</span>
+      <h1>Discover, Compete &amp; Lead in Campus Student Clubs</h1>
+      <p>Explore all 16 official Cultural, Technical, Academic, Media, and Defence clubs. View offline test procedures, upcoming campus events, and register when club recruitments open.</p>
+      <div class="hero-btns">
+        <a href="#clubs" class="btn-hero-primary">Explore All 16 Clubs ↓</a>
+        <a href="dashboard.html" class="btn-hero-sec">Club Head Dashboard →</a>
       </div>
     </div>
-    <div class="hero-image-box">
-      <div class="brush-frame">
-        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1000&q=80" alt="Students smiling around a table" />
-      </div>
-      <div class="float-card fc1"><div class="ic">🎉</div><div>New events weekly<small>Never miss out</small></div></div>
-      <div class="float-card fc2"><div class="ic">📝</div><div>Offline Test Link<small>Inside each club page</small></div></div>
+    <div class="hero-stats">
+      <div class="h-stat"><b>16</b><span>Official University Clubs</span></div>
+      <div class="h-stat"><b>16</b><span>Club Head Portals</span></div>
+      <div class="h-stat"><b>100%</b><span>Offline Test Based Selection</span></div>
+      <div class="h-stat"><b>@kletech</b><span>Verified Student Access</span></div>
     </div>
   </div>
 </section>
 
-<section class="stats">
-  <div class="container reveal">
-    <div class="stats-grid">
-      <div class="stat"><b data-count="1330" data-suffix="+">1,330+</b><span>Students in clubs</span></div>
-      <div class="stat"><b data-count="16" data-suffix="+">16+</b><span>Active clubs</span></div>
-      <div class="stat"><b data-count="5">5</b><span>Categories</span></div>
-      <div class="stat"><b data-count="60" data-suffix="+">60+</b><span>Events a year</span></div>
+<section class="section" id="clubs">
+  <div class="sec-head">
+    <div>
+      <span class="sec-tag">Campus Ecosystem</span>
+      <h2>Official Student Clubs</h2>
     </div>
   </div>
+
+  <div class="filters" id="categoryFilters">
+    <button class="filter-btn active" onclick="filterClubs('ALL', this)">All Clubs (16)</button>
+    <button class="filter-btn" onclick="filterClubs('Cultural Clubs', this)">Cultural</button>
+    <button class="filter-btn" onclick="filterClubs('Technical Clubs', this)">Technical</button>
+    <button class="filter-btn" onclick="filterClubs('Academic Clubs', this)">Academic</button>
+    <button class="filter-btn" onclick="filterClubs('Media & Communication', this)">Media</button>
+    <button class="filter-btn" onclick="filterClubs('Defence & National Service', this)">Defence</button>
+  </div>
+
+  <div class="clubs-grid" id="clubsGrid"></div>
 </section>
 
-<section id="clubs">
-  <div class="container">
-    <div class="center reveal">
-      <span class="eyebrow">Find your people</span>
-      <h2 class="sec-title">Explore our clubs</h2>
-      <p class="sec-sub">Click on any club below to open its dedicated page, view its benefits, and access its offline test registration link.</p>
+<section class="section" id="events">
+  <div class="sec-head">
+    <div>
+      <span class="sec-tag">Campus Calendar</span>
+      <h2>Upcoming Club Events</h2>
     </div>
-    <div class="toolbar reveal">
-      <div class="filters" id="filters">
-        <button class="filter active" data-f="all">All</button>
-        <button class="filter" data-f="cultural">Cultural Clubs</button>
-        <button class="filter" data-f="technical">Technical Clubs</button>
-        <button class="filter" data-f="academic">Academic Clubs</button>
-        <button class="filter" data-f="media">Media &amp; Communication</button>
-        <button class="filter" data-f="defence">Defence &amp; National Service</button>
-      </div>
-      <label class="search">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
-        <input id="q" type="text" placeholder="Search clubs..." />
-      </label>
-    </div>
-    <div class="grid" id="clubGrid"></div>
-    <div class="empty" id="empty">No clubs match your search. Try another word!</div>
   </div>
+  <div class="events-grid" id="eventsGrid"></div>
 </section>
 
-<section class="events" id="events">
-  <div class="container">
-    <div class="center reveal">
-      <span class="eyebrow">What's happening</span>
-      <h2 class="sec-title">Upcoming events</h2>
-      <p class="sec-sub">Workshops, tournaments, performances and more. Mark your calendar.</p>
-    </div>
-    <div class="ev-list" id="eventsGrid"></div>
-  </div>
-</section>
-
-<section id="how">
-  <div class="container">
-    <div class="center reveal">
-      <span class="eyebrow">Simple &amp; quick</span>
-      <h2 class="sec-title">How it works</h2>
-      <p class="sec-sub">Three easy steps to join your favourite club.</p>
-    </div>
-    <div class="steps">
-      <div class="step reveal"><div class="n">1</div><h4>Open Club Webpage</h4><p>Click any club card to read about the club, its advantages, and member perks.</p></div>
-      <div class="step reveal"><div class="n">2</div><h4>Register &amp; Attend Offline Test</h4><p>Use the registration link inside the club's Offline Test section and attend the audition/test.</p></div>
-      <div class="step reveal"><div class="n">3</div><h4>Pass &amp; Join Club</h4><p>Once you pass the offline test, the Club Head adds you to the official club members list.</p></div>
-    </div>
-  </div>
-</section>
-
-<div class="cta-band reveal" id="join">
-  <h2>Ready to find your club?</h2>
-  <p>Verify your @kletech.ac.in college account and explore all 16 university clubs today.</p>
-  <a href="#" class="btn-white" id="verifyCollegeBtn">Verify College Email →</a>
-</div>
-
-<footer id="contact">
-  <div class="container">
-    <div class="foot-grid">
-      <div><h5>KLE Technological University</h5><p>A student clubs platform to help every student discover communities, build skills and make memories.</p></div>
-      <div><h5>Explore</h5><ul><li><a href="#home">Home</a></li><li><a href="#clubs">Clubs</a></li><li><a href="#events">Events</a></li><li><a href="#how">How it works</a></li></ul></div>
-      <div>
-        <h5>Categories</h5>
-        <ul>
-          <li><a href="#clubs" data-go="cultural">Cultural Clubs</a></li>
-          <li><a href="#clubs" data-go="technical">Technical Clubs</a></li>
-          <li><a href="#clubs" data-go="academic">Academic Clubs</a></li>
-          <li><a href="#clubs" data-go="media">Media &amp; Communication</a></li>
-          <li><a href="#clubs" data-go="defence">Defence &amp; National Service</a></li>
-        </ul>
-      </div>
-      <div><h5>Contact</h5><ul><li>📍 Hubballi, Karnataka</li><li>✉️ clubs@kletech.ac.in</li><li>☎️ +91 836 237 8300</li></ul></div>
-    </div>
-    <div class="copy">© 2026 KLE Technological University Student Clubs. All rights reserved.</div>
-  </div>
-</footer>
-
-<!-- IN-PAGE STUDENT LOGIN POPUP -->
-<div class="login-overlay" id="loginOverlay">
-  <div class="login-card">
-    <button type="button" class="login-close" id="closeLoginBtn">×</button>
-    <span class="login-pill">KLE Tech Students Only</span>
-    <h3 id="loginModalTitle">Student College Login</h3>
-    <p>Sign in with your official <b>@kletech.ac.in</b> Google account right on this page.</p>
-
-    <div id="loginMsg" class="login-msg"></div>
-
-    <div class="login-field">
+<!-- STUDENT LOGIN MODAL -->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal-card">
+    <button type="button" class="modal-close" onclick="closeLoginModal()">×</button>
+    <h3 style="font-size:22px;margin-bottom:6px">Student College Login</h3>
+    <p style="font-size:13.5px;color:var(--slate);margin-bottom:16px">Sign in with your official <b>@kletech.ac.in</b> Google account.</p>
+    <div id="loginMsg" class="msg"></div>
+    <div class="field">
       <label>Your University USN (Optional if in email)</label>
       <input type="text" id="usnInput" placeholder="e.g. 01FE25BCS252" />
     </div>
-
-    <button type="button" class="google-btn" id="googleSignInBtn">
-      <svg width="18" height="18" viewBox="0 0 48 48">
-        <path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 8 3l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.9z"/>
-        <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 8 3l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
-        <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/>
-        <path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.6-.4-3.9z"/>
-      </svg>
+    <button type="button" class="btn-save" onclick="triggerGoogleLogin()">
       Continue with Google (@kletech.ac.in)
     </button>
   </div>
 </div>
 
+<footer>
+  © 2026 KLE Technological University Student Clubs Portal • Hubballi
+</footer>
+
 <script>
 const CLIENT_ID = "569900198066-2ff35ase3p649sqckmnmhbd7grd7pq9e.apps.googleusercontent.com";
 
-// Complete KLE Technological University Clubs List
-const CLUBS = [
-    // 1. CULTURAL CLUBS
-    {
-        n: "Dance Club",
-        c: "cultural",
-        label: "Cultural Clubs",
-        img: "images/dance.png",
-        d: "Classical, contemporary and street dance styles for every stage on campus.",
-        m: 95,
-        col: "#ca8a04"
-    },
-    {
-        n: "Music Club",
-        c: "cultural",
-        label: "Cultural Clubs",
-        img: "images/music.png",
-        d: "Bands, solo vocals, instrumental jam sessions and the annual campus fest.",
-        m: 110,
-        col: "#ca8a04"
-    },
-    {
-        n: "Drama Club",
-        c: "cultural",
-        label: "Cultural Clubs",
-        img: "images/drama.png",
-        d: "Street plays (Nukkad Natak), stage theatre, acting and dramatic storytelling.",
-        m: 90,
-        col: "#ca8a04"
-    },
-    {
-        n: "Wordsworth (Literary Club)",
-        c: "cultural",
-        label: "Cultural Clubs",
-        img: "images/wordsworth.png",
-        d: "Creative writing, debates, poetry slams, quizzes and literary discussions.",
-        m: 80,
-        col: "#ca8a04"
-    },
-    {
-        n: "Kannada Balaga",
-        c: "cultural",
-        label: "Cultural Clubs",
-        img: "images/kannada-balaga.png",
-        d: "Celebrating Kannada language, literature, folk arts and Kannada Rajyotsava.",
-        m: 150,
-        col: "#ca8a04"
-    },
-
-    // 2. TECHNICAL CLUBS
-    {
-        n: "IEEE",
-        c: "technical",
-        label: "Technical Clubs",
-        img: "images/ieee.png",
-        d: "Student branch fostering technological innovation, research papers and global networking.",
-        m: 130,
-        col: "#dc2626"
-    },
-    {
-        n: "IUCEE",
-        c: "technical",
-        label: "Technical Clubs",
-        img: "images/iucee.png",
-        d: "Indo-Universal Collaboration for Engineering Education student chapter and projects.",
-        m: 85,
-        col: "#dc2626"
-    },
-    {
-        n: "Code Club",
-        c: "technical",
-        label: "Technical Clubs",
-        img: "KLE-Tech-University-Logo.jpg",
-        d: "Competitive programming, hackathons, open-source sprints and weekly tech talks.",
-        m: 120,
-        col: "#dc2626"
-    },
-    {
-        n: "Data Science",
-        c: "technical",
-        label: "Technical Clubs",
-        img: "images/data-science.png",
-        d: "Applied AI, machine learning models, data engineering and kaggle competitions.",
-        m: 75,
-        col: "#dc2626"
-    },
-    {
-        n: "Aerokle",
-        c: "technical",
-        label: "Technical Clubs",
-        img: "images/aerokle.png",
-        d: "Design, build and fly RC aircraft, autonomous drones and UAV prototypes.",
-        m: 65,
-        col: "#dc2626"
-    },
-    {
-        n: "Rocketry",
-        c: "technical",
-        label: "Technical Clubs",
-        img: "images/rocketry.png",
-        d: "High-powered model rocketry, propulsion systems, avionics and payload design.",
-        m: 60,
-        col: "#dc2626"
-    },
-    {
-        n: "Motorsports",
-        c: "technical",
-        label: "Technical Clubs",
-        img: "images/motorsports.png",
-        d: "Design, fabricate and race custom ATVs, formula and electric vehicles at national events.",
-        m: 85,
-        col: "#dc2626"
-    },
-
-    // 3. ACADEMIC CLUBS
-    {
-        n: "Higher Studies",
-        c: "academic",
-        label: "Academic Clubs",
-        img: "images/higher-studies.png",
-        d: "GATE, GRE, CAT and MS preparation, alumni mentorship and university application guidance.",
-        m: 60,
-        col: "#2563eb"
-    },
-    {
-        n: "Make in BVB",
-        c: "academic",
-        label: "Academic Clubs",
-        img: "images/make-in-bvb.png",
-        d: "Interdisciplinary product design, hardware prototyping and entrepreneurship in the maker space.",
-        m: 70,
-        col: "#2563eb"
-    },
-    {
-        n: "Data Science",
-        c: "academic",
-        label: "Academic Clubs",
-        img: "images/data-science.png",
-        d: "Explore statistical foundations, research datasets, analytics and study groups.",
-        m: 70,
-        col: "#2563eb"
-    },
-
-    // 4. MEDIA AND COMMUNICATION
-    {
-        n: "Kletech Media",
-        c: "media",
-        label: "Media & Communication",
-        img: "images/kletech-media.png",
-        d: "The official campus media house covering photography, filmmaking, design and event coverage.",
-        m: 140,
-        col: "#d97706"
-    },
-
-    // 5. DEFENCE AND NATIONAL SERVICE
-    {
-        n: "Defence",
-        c: "defence",
-        label: "Defence & National Service",
-        img: "images/defence.png",
-        d: "Discipline, physical fitness, SSB interview prep and guidance for careers in the Armed Forces.",
-        m: 50,
-        col: "#16a34a"
-    }
+const CLUBS_LIST = [
+  { name: "Dance Club", category: "Cultural Clubs", emoji: "💃", desc: "Classical, contemporary, hip-hop, and folk choreography for campus fests and national stages." },
+  { name: "Music Club", category: "Cultural Clubs", emoji: "🎸", desc: "Vocalists, instrumentalists, acoustic nights, and Battle of the Bands." },
+  { name: "Drama Club", category: "Cultural Clubs", emoji: "🎭", desc: "Stage theatre, Nukkad Natak (street plays), mime, and scriptwriting." },
+  { name: "Wordsworth (Literary Club)", category: "Cultural Clubs", emoji: "✒️", desc: "Parliamentary debates, quizzes, poetry slams, MUNs, and creative writing." },
+  { name: "Kannada Balaga", category: "Cultural Clubs", emoji: "🪔", desc: "Celebrating Kannada heritage, literature, folk arts, and Kannada Rajyotsava." },
+  { name: "IEEE", category: "Technical Clubs", emoji: "⚡", desc: "Global research papers, symposiums, hardware/software sprints, and SIGs." },
+  { name: "IUCEE", category: "Technical Clubs", emoji: "🌐", desc: "Interdisciplinary engineering prototypes, sustainability, and global collaboration." },
+  { name: "Code Club", category: "Technical Clubs", emoji: "💻", desc: "Competitive programming, DSA contests, full-stack apps, and 24-hour Hack Nights." },
+  { name: "Data Science", category: "Technical Clubs", emoji: "📊", desc: "Applied AI, Machine Learning, Deep Learning, LLMs, and Kaggle datathons." },
+  { name: "Aerokle", category: "Technical Clubs", emoji: "✈️", desc: "Design, build, and fly RC aircraft, autonomous UAVs, and multi-rotor drones." },
+  { name: "Rocketry", category: "Technical Clubs", emoji: "🚀", desc: "High-powered model rockets, avionics, flight computers, and payloads." },
+  { name: "Motorsports", category: "Technical Clubs", emoji: "🏎️", desc: "Engineer, fabricate, and race custom BAJA ATVs, Formula, and Electric Vehicles." },
+  { name: "Higher Studies", category: "Academic Clubs", emoji: "🎓", desc: "Structured preparation and mentorship for GATE, GRE, CAT, and global Master's." },
+  { name: "Make in BVB", category: "Academic Clubs", emoji: "🛠️", desc: "Hardware prototyping, 3D printing, IoT products, and student startups." },
+  { name: "Kletech Media", category: "Media & Communication", emoji: "🎬", desc: "Official campus photography, filmmaking, aftermovies, and graphic design." },
+  { name: "Defence", category: "Defence & National Service", emoji: "🛡️", desc: "SSB interview prep, physical endurance, CDS/AFCAT guidance, and national service." }
 ];
 
-const grid = document.getElementById("clubGrid");
-const empty = document.getElementById("empty");
-let cat = "all";
-let term = "";
+let selectedCategory = "ALL";
+let studentStatusMap = {};
 
-function render() {
-    const list = CLUBS.filter(x =>
-        (cat === "all" || x.c === cat) &&
-        (x.n + " " + x.d + " " + x.label).toLowerCase().includes(term)
-    );
-
-    grid.innerHTML = list.map(x => {
-        const clubUrl = "club.html?club=" + encodeURIComponent(x.n);
-
-        return `
-            <article class="club" data-club="${x.n}" style="--c:${x.col};cursor:pointer">
-                <div class="emoji">
-                    <img
-                        src="${x.img}"
-                        alt="${x.n}"
-                        class="club-image"
-                        onerror="this.style.display='none'; this.parentElement.textContent='🏫';"
-                    >
-                </div>
-                <span class="tag">${x.label}</span>
-                <h3>${x.n}</h3>
-                <p>${x.d}</p>
-                <div class="club-foot">
-                    <span>👥 ${x.m} members</span>
-                    <a href="${clubUrl}" class="join">View Club →</a>
-                </div>
-            </article>
-        `;
-    }).join("");
-
-    empty.style.display = list.length ? "none" : "block";
+function getLoggedStudent() {
+  return JSON.parse(localStorage.getItem("kle_student") || "null");
 }
 
-// Click anywhere on a club card to open its dedicated club.html page
-grid.addEventListener("click", e => {
-    const card = e.target.closest(".club[data-club]");
-    if (!card) return;
-    const clubName = card.getAttribute("data-club");
-    window.location.href = "club.html?club=" + encodeURIComponent(clubName);
-});
-
-function setCat(c) {
-    cat = c;
-    document.querySelectorAll(".filter").forEach(b => {
-        b.classList.toggle("active", b.dataset.f === c);
-    });
-    render();
+function refreshStudentNav() {
+  const btn = document.getElementById("studentNavBtn");
+  const student = getLoggedStudent();
+  if (student && student.email) {
+    btn.textContent = "🟢 " + student.usn + " (Logout)";
+    btn.onclick = () => {
+      if (confirm("Logout from " + student.email + "?")) {
+        localStorage.removeItem("kle_student");
+        studentStatusMap = {};
+        refreshStudentNav();
+        renderClubs();
+      }
+    };
+  } else {
+    btn.textContent = "Student Login";
+    btn.onclick = () => openLoginModal();
+  }
 }
 
-document.getElementById("filters").addEventListener("click", e => {
-    const b = e.target.closest(".filter");
-    if (b) setCat(b.dataset.f);
-});
-
-document.getElementById("q").addEventListener("input", e => {
-    term = e.target.value.toLowerCase().trim();
-    render();
-});
-
-document.querySelectorAll("[data-go]").forEach(ch => {
-    ch.addEventListener("click", () => {
-        setCat(ch.dataset.go);
-        document.getElementById("clubs").scrollIntoView({ behavior: "smooth" });
-    });
-});
-
-// =========================================================
-// UPCOMING EVENTS (DISPLAY ONLY ON FRONT.HTML)
-// =========================================================
-const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-
-function formatDayAndMonth(dateStr) {
-    const parts = (dateStr || "").split("-");
-    if (parts.length !== 3) return { day: "01", mon: "JAN" };
-    const day = parts[2].padStart(2, "0");
-    const monIdx = parseInt(parts[1], 10) - 1;
-    return { day, mon: MONTHS[monIdx] || "JAN" };
+function filterClubs(cat, btnEl) {
+  selectedCategory = cat;
+  document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+  if (btnEl) btnEl.classList.add("active");
+  renderClubs();
 }
 
-function format12HourTime(timeStr) {
-    if (!timeStr) return "5:00 PM";
-    const [hStr, mStr] = timeStr.split(":");
-    let h = parseInt(hStr, 10);
-    if (isNaN(h)) return timeStr;
-    const ampm = h >= 12 ? "PM" : "AM";
-    h = h % 12 || 12;
-    return `${h}:${mStr || "00"} ${ampm}`;
-}
+function renderClubs() {
+  const grid = document.getElementById("clubsGrid");
+  const list = selectedCategory === "ALL"
+    ? CLUBS_LIST
+    : CLUBS_LIST.filter(c => c.category === selectedCategory);
 
-async function loadUpcomingEvents() {
-    try {
-        const res = await fetch("/api/events");
-        const data = await res.json();
-        const events = data.events || [];
-        const evGrid = document.getElementById("eventsGrid");
-
-        if (!events.length) {
-            evGrid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:#64748b;padding:30px">No upcoming events scheduled right now.</div>`;
-            return;
-        }
-
-        evGrid.innerHTML = events.map(ev => {
-            const { day, mon } = formatDayAndMonth(ev.event_date);
-            const niceTime = format12HourTime(ev.event_time);
-            return `
-                <article class="event reveal">
-                    <div class="date"><b>${day}</b><span>${mon}</span></div>
-                    <div>
-                        <h4>${ev.title}</h4>
-                        <p>${ev.description}</p>
-                        <div class="meta">📍 ${ev.venue} · ${niceTime}</div>
-                    </div>
-                </article>
-            `;
-        }).join("");
-    } catch (err) {
-        console.error("Could not load events:", err);
+  grid.innerHTML = list.map(c => {
+    const st = studentStatusMap[c.name];
+    let badgeHtml = "";
+    if (st === "accepted") {
+      badgeHtml = `<span class="club-status-pill st-accepted">✅ Official Member</span>`;
+    } else if (st === "pending") {
+      badgeHtml = `<span class="club-status-pill st-pending">⏳ Offline Test Pending</span>`;
     }
+
+    return `
+      <div class="club-card">
+        <div>
+          <div class="club-top">
+            <div class="club-emoji">${c.emoji}</div>
+            <span class="club-cat">${c.category}</span>
+          </div>
+          <h3>${c.name}</h3>
+          ${badgeHtml}
+          <p>${c.desc}</p>
+        </div>
+        <a href="club.html?club=${encodeURIComponent(c.name)}" class="btn-explore">
+          Explore Club &amp; Test Info →
+        </a>
+      </div>
+    `;
+  }).join("");
 }
 
-// In-page Login Popup Controls
-const loginOverlay = document.getElementById("loginOverlay");
-const loginMsg = document.getElementById("loginMsg");
-const studentNavBtn = document.getElementById("studentNavBtn");
-const verifyCollegeBtn = document.getElementById("verifyCollegeBtn");
-
-function openLoginPopup() {
-    document.getElementById("loginModalTitle").textContent = "Student College Login";
-    loginMsg.className = "login-msg";
-    loginOverlay.classList.add("open");
-}
-
-function closeLoginPopup() {
-    loginOverlay.classList.remove("open");
-}
-
-function showLoginMsg(text, isError) {
-    loginMsg.textContent = text;
-    loginMsg.className = isError ? "login-msg err" : "login-msg ok";
-}
-
-document.getElementById("closeLoginBtn").addEventListener("click", closeLoginPopup);
-
-if (verifyCollegeBtn) {
-    verifyCollegeBtn.addEventListener("click", e => {
-        e.preventDefault();
-        openLoginPopup();
-    });
-}
-
-// Show verified @kletech.ac.in student in navbar
-function refreshStudentNavbar() {
-    const loggedStudent = JSON.parse(localStorage.getItem("kle_student") || "null");
-
-    if (loggedStudent && studentNavBtn) {
-        studentNavBtn.textContent = "🟢 " + loggedStudent.usn + " (Logout)";
-        studentNavBtn.onclick = e => {
-            e.preventDefault();
-            if (confirm("Logout from " + loggedStudent.email + "?")) {
-                localStorage.removeItem("kle_student");
-                window.location.reload();
-            }
-        };
-    } else if (studentNavBtn) {
-        studentNavBtn.textContent = "Student Login";
-        studentNavBtn.onclick = e => {
-            e.preventDefault();
-            openLoginPopup();
-        };
+async function loadStudentStatus() {
+  const student = getLoggedStudent();
+  if (!student || !student.email) return;
+  try {
+    const res = await fetch(`/api/student-status?email=${encodeURIComponent(student.email)}&usn=${encodeURIComponent(student.usn || "")}`);
+    if (res.ok) {
+      const data = await res.json();
+      studentStatusMap = data.status_map || {};
+      renderClubs();
     }
+  } catch (e) {}
 }
-refreshStudentNavbar();
 
-// Google Sign-In Button inside the Popup
-document.getElementById("googleSignInBtn").addEventListener("click", () => {
-    if (!window.google || !window.google.accounts) {
-        showLoginMsg("Google script is loading. Please try again in 2 seconds.", true);
+async function loadEvents() {
+  const grid = document.getElementById("eventsGrid");
+  try {
+    const res = await fetch("/api/events");
+    if (!res.ok) return;
+    const data = await res.json();
+    const events = data.events || [];
+    if (!events.length) {
+      grid.innerHTML = `<p style="color:#64748b">No upcoming events scheduled right now.</p>`;
+      return;
+    }
+    grid.innerHTML = events.map(ev => `
+      <div class="event-card">
+        <span class="ev-club">${ev.club_name}</span>
+        <h3>${ev.title}</h3>
+        <p>${ev.description}</p>
+        <div class="ev-meta">
+          <span>📍 Venue: ${ev.venue}</span>
+          <span>📅 Date: ${ev.event_date} • ⏰ ${ev.event_time}</span>
+        </div>
+      </div>
+    `).join("");
+  } catch (e) {}
+}
+
+function ensureGoogleScriptLoaded() {
+  if (document.getElementById("gsiScript")) return;
+  const s = document.createElement("script");
+  s.id = "gsiScript";
+  s.src = "https://accounts.google.com/gsi/client";
+  s.async = true;
+  document.head.appendChild(s);
+}
+
+function openLoginModal() {
+  ensureGoogleScriptLoaded();
+  document.getElementById("loginMsg").className = "msg";
+  document.getElementById("loginModal").classList.add("open");
+}
+
+function closeLoginModal() {
+  document.getElementById("loginModal").classList.remove("open");
+}
+
+function triggerGoogleLogin() {
+  if (!window.google || !window.google.accounts) {
+    alert("Google login is initializing, please click again in 1 second.");
+    return;
+  }
+  const tokenClient = google.accounts.oauth2.initTokenClient({
+    client_id: CLIENT_ID,
+    scope: "openid email profile",
+    hosted_domain: "kletech.ac.in",
+    prompt: "select_account",
+    callback: async tokenResponse => {
+      if (tokenResponse.error) return;
+      const usn = document.getElementById("usnInput").value.trim();
+      const res = await fetch("/api/google-login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ access_token: tokenResponse.access_token, usn })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        const m = document.getElementById("loginMsg");
+        m.textContent = data.error;
+        m.className = "msg err";
         return;
+      }
+      localStorage.setItem("kle_student", JSON.stringify(data.student));
+      refreshStudentNav();
+      closeLoginModal();
+      await loadStudentStatus();
     }
-
-    const tokenClient = google.accounts.oauth2.initTokenClient({
-        client_id: CLIENT_ID,
-        scope: "openid email profile",
-        hosted_domain: "kletech.ac.in",
-        prompt: "select_account",
-        callback: async tokenResponse => {
-            if (tokenResponse.error) {
-                showLoginMsg("Google Login Error: " + tokenResponse.error, true);
-                return;
-            }
-
-            const usn = document.getElementById("usnInput").value.trim();
-
-            try {
-                const res = await fetch("/api/google-login", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        access_token: tokenResponse.access_token,
-                        usn: usn
-                    })
-                });
-
-                const data = await res.json();
-                if (!res.ok) {
-                    showLoginMsg(data.error, true);
-                    return;
-                }
-
-                localStorage.setItem("kle_student", JSON.stringify(data.student));
-                refreshStudentNavbar();
-                showLoginMsg("Verified as " + data.student.email + "!", false);
-
-                setTimeout(() => {
-                    closeLoginPopup();
-                }, 500);
-            } catch (err) {
-                showLoginMsg("Cannot connect to server.js! Make sure node server.js is running.", true);
-            }
-        }
-    });
-
-    tokenClient.requestAccessToken();
-});
-
-// Render all club cards and upcoming events immediately
-render();
-loadUpcomingEvents();
-setInterval(loadUpcomingEvents, 60000);
-
-// Mobile menu
-const nl = document.getElementById("navLinks");
-const burger = document.getElementById("burger");
-if (burger && nl) {
-    burger.addEventListener("click", () => nl.classList.toggle("open"));
-    nl.addEventListener("click", e => {
-        if (e.target.closest("a")) nl.classList.remove("open");
-    });
+  });
+  tokenClient.requestAccessToken();
 }
+
+refreshStudentNav();
+renderClubs();
+loadStudentStatus();
+loadEvents();
 </script>
 </body>
 </html>
