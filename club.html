@@ -44,7 +44,7 @@ a{text-decoration:none;color:inherit}
 .art-card .em{font-size:76px;line-height:1}
 .art-card b{font-size:14px;color:var(--primary);font-weight:800;text-transform:uppercase;letter-spacing:1px}
 
-/* CLUB HEAD EDITOR TOOLBAR (NO DUPLICATE BUTTONS) */
+/* CLUB HEAD EDITOR TOOLBAR (HIDDEN BY DEFAULT FOR STUDENTS) */
 .member-editor-bar{max-width:1180px;margin:26px auto 0;padding:0 24px;display:none}
 .editor-banner{background:#fff;border:2px solid var(--primary);border-radius:18px;padding:16px 22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;box-shadow:0 10px 25px rgba(0,0,0,.05)}
 .editor-banner b{color:var(--primary);font-size:14.5px}
@@ -135,7 +135,7 @@ a{text-decoration:none;color:inherit}
   </div>
 </section>
 
-<!-- STRICTLY SHOWN ONLY TO THE REGISTERED CLUB HEAD OF THIS SPECIFIC CLUB (NO DUPLICATE ADD BUTTONS) -->
+<!-- HIDDEN FOR STUDENTS: SHOWN ONLY TO THE REGISTERED CLUB HEAD OF THIS SPECIFIC CLUB -->
 <div class="member-editor-bar" id="memberEditorBar">
   <div class="editor-banner">
     <div>
@@ -181,7 +181,7 @@ a{text-decoration:none;color:inherit}
   </div>
 
   <div class="ab-grid">
-    <!-- ADVANTAGES CARD (SINGLE + ADD ADVANTAGE BUTTON) -->
+    <!-- ADVANTAGES CARD -->
     <div class="card">
       <div class="card-head">
         <div>
@@ -193,7 +193,7 @@ a{text-decoration:none;color:inherit}
       <ul class="item-list" id="advantagesList"></ul>
     </div>
 
-    <!-- BENEFITS CARD (SINGLE + ADD BENEFIT BUTTON) -->
+    <!-- BENEFITS CARD -->
     <div class="card">
       <div class="card-head">
         <div>
@@ -207,7 +207,7 @@ a{text-decoration:none;color:inherit}
   </div>
 </div>
 
-<!-- MODAL 1: EDIT ABOUT CLUB, OFFLINE TEST, REGISTRATION LINK & THEME COLORS (OWN CLUB HEAD ONLY) -->
+<!-- MODAL 1: EDIT CLUB INFO -->
 <div class="modal-overlay" id="infoModal">
   <div class="modal-card">
     <button type="button" class="modal-close" onclick="closeInfoModal()">×</button>
@@ -248,7 +248,7 @@ a{text-decoration:none;color:inherit}
   </div>
 </div>
 
-<!-- MODAL 2: ADD / EDIT ADVANTAGE OR BENEFIT (OWN CLUB HEAD ONLY) -->
+<!-- MODAL 2: ADD / EDIT ADVANTAGE OR BENEFIT -->
 <div class="modal-overlay" id="itemModal">
   <div class="modal-card">
     <button type="button" class="modal-close" onclick="closeItemModal()">×</button>
@@ -287,28 +287,16 @@ const params = new URLSearchParams(window.location.search);
 const currentClubName = params.get("club") || "Code Club";
 
 const CLUB_EMOJIS = {
-  "Dance Club": "💃",
-  "Music Club": "🎸",
-  "Drama Club": "🎭",
-  "Wordsworth (Literary Club)": "✒️",
-  "Kannada Balaga": "🪔",
-  "IEEE": "⚡",
-  "IUCEE": "🌐",
-  "Code Club": "💻",
-  "Data Science": "📊",
-  "Aerokle": "✈️",
-  "Rocketry": "🚀",
-  "Motorsports": "🏎️",
-  "Higher Studies": "🎓",
-  "Make in BVB": "🛠️",
-  "Kletech Media": "🎬",
-  "Defence": "🛡️"
+  "Dance Club": "💃", "Music Club": "🎸", "Drama Club": "🎭",
+  "Wordsworth (Literary Club)": "✒️", "Kannada Balaga": "🪔", "IEEE": "⚡",
+  "IUCEE": "🌐", "Code Club": "💻", "Data Science": "📊",
+  "Aerokle": "✈️", "Rocketry": "🚀", "Motorsports": "🏎️",
+  "Higher Studies": "🎓", "Make in BVB": "🛠️", "Kletech Media": "🎬", "Defence": "🛡️"
 };
 
 const FALLBACK_CLUBS = {
   "Dance Club": {
-    category: "Cultural Clubs",
-    tagline: "Express rhythm, grace, and high-energy choreography on every campus stage.",
+    category: "Cultural Clubs", tagline: "Express rhythm, grace, and high-energy choreography on every campus stage.",
     theme_primary: "#be185d", theme_secondary: "#f43f5e", theme_bg: "#fff1f2",
     about: "The KLE Tech Dance Club brings together classical, contemporary, hip-hop, and folk dancers for campus fests and national cultural competitions.",
     offline_test_info: "2-minute solo or duo live audition in front of the Dance Club core panel at the Student Activity Center.",
@@ -317,8 +305,7 @@ const FALLBACK_CLUBS = {
     benefits: ["Official KLE Tech Cultural Certificate and credit points", "Priority travel sponsorship for national dance fests", "Build stage confidence, teamwork, and fitness"]
   },
   "Music Club": {
-    category: "Cultural Clubs",
-    tagline: "Where vocalists, instrumentalists, and bands create unforgettable campus anthems.",
+    category: "Cultural Clubs", tagline: "Where vocalists, instrumentalists, and bands create unforgettable campus anthems.",
     theme_primary: "#7c3aed", theme_secondary: "#a855f7", theme_bg: "#f5f3ff",
     about: "From classical ragas and acoustic unplugged nights to battle-of-the-bands rock shows, the Music Club is the heartbeat of campus live entertainment.",
     offline_test_info: "Live vocal or instrumental audition evaluated on pitch, rhythm, and stage presence.",
@@ -327,8 +314,7 @@ const FALLBACK_CLUBS = {
     benefits: ["Hands-on experience with live audio mixing and stage setup", "Official representation in national Battle of Bands events", "Lifetime network of campus musicians"]
   },
   "Drama Club": {
-    category: "Cultural Clubs",
-    tagline: "Command the stage through powerful theatre, street plays, and storytelling.",
+    category: "Cultural Clubs", tagline: "Command the stage through powerful theatre, street plays, and storytelling.",
     theme_primary: "#b45309", theme_secondary: "#f59e0b", theme_bg: "#fffbeb",
     about: "The Drama Club produces thought-provoking Nukkad Natak (street plays), full-length stage dramas, mime acts, and scriptwriting workshops.",
     offline_test_info: "On-spot monologue delivery and improvisation round conducted by the Drama Club directors.",
@@ -337,8 +323,7 @@ const FALLBACK_CLUBS = {
     benefits: ["Overcome public speaking fear and develop communication skills", "Earn cultural recognition certificates and fest awards", "Be part of a tight-knit creative family on campus"]
   },
   "Wordsworth (Literary Club)": {
-    category: "Cultural Clubs",
-    tagline: "Sharpen your wit through debates, poetry slams, quizzes, and creative writing.",
+    category: "Cultural Clubs", tagline: "Sharpen your wit through debates, poetry slams, quizzes, and creative writing.",
     theme_primary: "#0f766e", theme_secondary: "#14b8a6", theme_bg: "#f0fdfa",
     about: "Wordsworth is KLE Technological University's premier literary society for debaters, writers, poets, quiz enthusiasts, and public speakers.",
     offline_test_info: "Written creative/analytical round followed by a short extempore or debate round.",
@@ -347,8 +332,7 @@ const FALLBACK_CLUBS = {
     benefits: ["Directly boosts placement interview articulation and GD skills", "Mentorship from senior debaters and national quiz finalists", "Official literary organization certificates"]
   },
   "Kannada Balaga": {
-    category: "Cultural Clubs",
-    tagline: "Celebrating the rich heritage of Kannada language, literature, and folk arts.",
+    category: "Cultural Clubs", tagline: "Celebrating the rich heritage of Kannada language, literature, and folk arts.",
     theme_primary: "#dc2626", theme_secondary: "#eab308", theme_bg: "#fefce8",
     about: "Kannada Balaga leads the grand Kannada Rajyotsava celebrations, folk arts showcases, Janapada songs, and literary events that unite the entire university.",
     offline_test_info: "Offline interaction and cultural/literary screening conducted by the Kannada Balaga core committee.",
@@ -357,8 +341,7 @@ const FALLBACK_CLUBS = {
     benefits: ["Develop large-scale event management and leadership experience", "Cultural service recognition from the university", "Connect deeply with regional traditions"]
   },
   "IEEE": {
-    category: "Technical Clubs",
-    tagline: "Advancing technology for humanity through global research and innovation.",
+    category: "Technical Clubs", tagline: "Advancing technology for humanity through global research and innovation.",
     theme_primary: "#0284c7", theme_secondary: "#38bdf8", theme_bg: "#f0f9ff",
     about: "The IEEE Student Branch connects students to the world's largest technical professional organization through research papers and symposiums.",
     offline_test_info: "Offline technical aptitude test covering fundamentals of electronics, logic, and coding followed by an interview.",
@@ -367,8 +350,7 @@ const FALLBACK_CLUBS = {
     benefits: ["Globally recognized IEEE student leadership credentials", "Direct mentorship from faculty researchers", "Networking with IEEE branches across India"]
   },
   "IUCEE": {
-    category: "Technical Clubs",
-    tagline: "Global engineering education, interdisciplinary projects, and sustainability.",
+    category: "Technical Clubs", tagline: "Global engineering education, interdisciplinary projects, and sustainability.",
     theme_primary: "#059669", theme_secondary: "#34d399", theme_bg: "#ecfdf5",
     about: "The IUCEE Student Chapter empowers engineering students to solve real-world community problems through global collaboration.",
     offline_test_info: "Problem-solving case study written test and personal interview with the chapter leads.",
@@ -377,8 +359,7 @@ const FALLBACK_CLUBS = {
     benefits: ["Strong project portfolio for higher studies and placements", "Leadership roles in national engineering conclaves", "Certificate of recognition from the IUCEE consortium"]
   },
   "Code Club": {
-    category: "Technical Clubs",
-    tagline: "Master competitive programming, full-stack development, and 24-hour hackathons.",
+    category: "Technical Clubs", tagline: "Master competitive programming, full-stack development, and 24-hour hackathons.",
     theme_primary: "#4f46e5", theme_secondary: "#818cf8", theme_bg: "#eef2ff",
     about: "Code Club is the hub for algorithmic problem solvers, open-source contributors, and hackathon builders at KLE Tech.",
     offline_test_info: "Offline DSA & logic coding test (pen-and-paper + lab round) followed by a technical interview.",
@@ -387,8 +368,7 @@ const FALLBACK_CLUBS = {
     benefits: ["Crack top product-based software engineering placements", "Form elite teams for Smart India Hackathon (SIH)", "Mentorship from alumni at top tech companies"]
   },
   "Data Science": {
-    category: "Technical & Academic",
-    tagline: "Turn raw data into intelligent AI, Machine Learning, and Deep Learning models.",
+    category: "Technical & Academic", tagline: "Turn raw data into intelligent AI, Machine Learning, and Deep Learning models.",
     theme_primary: "#0891b2", theme_secondary: "#22d3ee", theme_bg: "#ecfeff",
     about: "The Data Science Club explores applied Artificial Intelligence, LLMs, computer vision, statistical modeling, and Kaggle competitions.",
     offline_test_info: "Offline test on Python, linear algebra, probability, and ML basics followed by a project discussion.",
@@ -397,8 +377,7 @@ const FALLBACK_CLUBS = {
     benefits: ["Build a standout GitHub portfolio of AI/ML projects", "Preparation for Data Scientist placement roles", "Co-author research papers in AI conferences"]
   },
   "Aerokle": {
-    category: "Technical Clubs",
-    tagline: "Design, build, and fly RC aircraft, autonomous UAVs, and multi-rotor drones.",
+    category: "Technical Clubs", tagline: "Design, build, and fly RC aircraft, autonomous UAVs, and multi-rotor drones.",
     theme_primary: "#1d4ed8", theme_secondary: "#60a5fa", theme_bg: "#eff6ff",
     about: "Aerokle is KLE Tech's aeromodelling and autonomous drone design team, competing in SAE Aero Design and national UAV challenges.",
     offline_test_info: "Offline written test on basic aerodynamics, mechanics, and embedded electronics followed by an interview.",
@@ -407,8 +386,7 @@ const FALLBACK_CLUBS = {
     benefits: ["Represent KLE Tech at IIT techfests and SAE competitions", "Deep hands-on mastery of robotics and avionics", "Access to the dedicated Aerokle fabrication lab"]
   },
   "Rocketry": {
-    category: "Technical Clubs",
-    tagline: "Pushing altitude limits with high-powered model rocketry, avionics, and payloads.",
+    category: "Technical Clubs", tagline: "Pushing altitude limits with high-powered model rocketry, avionics, and payloads.",
     theme_primary: "#c2410c", theme_secondary: "#fb923c", theme_bg: "#fff7ed",
     about: "The Rocketry Club engineers solid-propellant model rockets, dual-deployment recovery systems, flight computers, and payloads.",
     offline_test_info: "Offline test covering physics, propulsion/CAD fundamentals, or embedded sensors followed by an interview.",
@@ -417,8 +395,7 @@ const FALLBACK_CLUBS = {
     benefits: ["Rare aerospace and defense hardware engineering experience", "Strong profile for core engineering, ISRO, and MS applications", "Hands-on composite manufacturing"]
   },
   "Motorsports": {
-    category: "Technical Clubs",
-    tagline: "Engineer, fabricate, and race custom ATVs, Formula, and Electric Vehicles.",
+    category: "Technical Clubs", tagline: "Engineer, fabricate, and race custom ATVs, Formula, and Electric Vehicles.",
     theme_primary: "#dc2626", theme_secondary: "#f87171", theme_bg: "#fef2f2",
     about: "KLE Tech Motorsports designs and fabricates off-road BAJA buggies, Formula-style race cars, and electric vehicles from scratch.",
     offline_test_info: "Offline technical test on automobile subsystems, CAD, or EV electronics plus workshop interview.",
@@ -427,8 +404,7 @@ const FALLBACK_CLUBS = {
     benefits: ["Top recruitment preference from core automotive and EV firms", "Learn project budgeting, sponsorship, and team management", "Access to the Motorsports garage and bay"]
   },
   "Higher Studies": {
-    category: "Academic Clubs",
-    tagline: "Your launchpad for GATE, GRE, CAT, GMAT, and top global master's programs.",
+    category: "Academic Clubs", tagline: "Your launchpad for GATE, GRE, CAT, GMAT, and top global master's programs.",
     theme_primary: "#1e40af", theme_secondary: "#3b82f6", theme_bg: "#eff6ff",
     about: "The Higher Studies Club guides students aiming for IITs, IIMs, and global universities through study circles, mock tests, and mentorship.",
     offline_test_info: "Offline aptitude & quantitative reasoning diagnostic test followed by a goal-alignment interaction.",
@@ -437,8 +413,7 @@ const FALLBACK_CLUBS = {
     benefits: ["Stay consistent with a peer group targeting 99+ percentiles", "Direct Q&A sessions with recent admits to IISc, IITs, and IIMs", "Guidance on research internships"]
   },
   "Make in BVB": {
-    category: "Academic Clubs",
-    tagline: "Turn bold ideas into hardware prototypes, startups, and market-ready products.",
+    category: "Academic Clubs", tagline: "Turn bold ideas into hardware prototypes, startups, and market-ready products.",
     theme_primary: "#ca8a04", theme_secondary: "#facc15", theme_bg: "#fefce8",
     about: "Make in BVB fosters product design, rapid 3D prototyping, IoT innovation, and student entrepreneurship inside the maker space.",
     offline_test_info: "Offline product-ideation challenge and technical/maker skill interaction.",
@@ -447,8 +422,7 @@ const FALLBACK_CLUBS = {
     benefits: ["Seed funding and incubation pathways for student startups", "Interdisciplinary teamwork across engineering branches", "Build tangible hardware-software products"]
   },
   "Kletech Media": {
-    category: "Media & Communication",
-    tagline: "The official lens and voice of KLE Tech—photography, filmmaking, and design.",
+    category: "Media & Communication", tagline: "The official lens and voice of KLE Tech—photography, filmmaking, and design.",
     theme_primary: "#d97706", theme_secondary: "#fbbf24", theme_bg: "#fffbeb",
     about: "Kletech Media is the official campus media house covering event photography, aftermovies, graphic design, and drone cinematography.",
     offline_test_info: "Offline portfolio review and live campus photography/editing/design task.",
@@ -457,21 +431,17 @@ const FALLBACK_CLUBS = {
     benefits: ["Build a professional creative portfolio while in college", "Collaborate with every club and department on campus", "Official Media House press badge and certificate"]
   },
   "Defence": {
-    category: "Defence & National Service",
-    tagline: "Discipline, physical endurance, SSB preparation, and service to the nation.",
+    category: "Defence & National Service", tagline: "Discipline, physical endurance, SSB preparation, and service to the nation.",
     theme_primary: "#15803d", theme_secondary: "#22c55e", theme_bg: "#f0fdf4",
     about: "The Defence Club prepares aspirants for careers in the Indian Armed Forces (CDS, AFCAT, NDA, SSB) through physical training and group tasks.",
     offline_test_info: "Offline physical fitness assessment and written general awareness screening test.",
     registration_link: "",
     advantages: ["Structured SSB interview prep: GTO tasks, PPDT, and mock interviews", "Morning physical fitness and obstacle training", "Guest lectures by serving and retired Armed Forces officers"],
-    benefits: ["Develop officer-like qualities (OLQs) and mental toughness", "Focused preparation for CDS, AFCAT, and technical entries", "Lead Republic Day and Independence Day events"]
+    benefits: ["Develop officer-like qualities (OLQs) and mental toughness", "Focused preparation for CDS, AFCAT, and technical entries", "Lead Republic Day and IndependenceDay events"]
   }
 };
 
-const localOverrides = JSON.parse(localStorage.getItem("kle_club_pages_cache") || "{}");
-let clubPageData = JSON.parse(
-  JSON.stringify(localOverrides[currentClubName] || FALLBACK_CLUBS[currentClubName] || FALLBACK_CLUBS["Code Club"])
-);
+let clubPageData = JSON.parse(JSON.stringify(FALLBACK_CLUBS[currentClubName] || FALLBACK_CLUBS["Code Club"]));
 let canEditThisClub = false;
 let acceptedMembersCount = 0;
 
@@ -485,9 +455,7 @@ async function fetchWithTimeout(url, options = {}, ms = 1200) {
   }
 }
 
-// =========================================================
-// STRICT: ONLY READS LOGGED-IN CLUB HEAD IF THEIR ASSIGNED CLUB MATCHES THIS PAGE
-// =========================================================
+// STRICT OWNERSHIP: Checks if logged-in Club Head matches THIS exact club page
 function getActiveEditorIdentity() {
   const clubHead = JSON.parse(localStorage.getItem("kle_club_head") || "null");
   if (clubHead && clubHead.email && clubHead.club_name === currentClubName) {
@@ -551,6 +519,7 @@ function renderClubUI() {
     regBox.innerHTML = `<span class="no-link-note">Offline test registration link will be updated by the Club Head soon.</span>`;
   }
 
+  // STRICTLY HIDE OR SHOW EDIT BUTTONS BASED ON OWNERSHIP
   document.getElementById("memberEditorBar").style.display = canEditThisClub ? "block" : "none";
   document.querySelectorAll(".member-only-btn").forEach(b => {
     b.style.display = canEditThisClub ? "inline-block" : "none";
@@ -584,8 +553,8 @@ function renderList(containerId, items, type, icon) {
 async function loadClubWebpage() {
   const editorIdentity = getActiveEditorIdentity();
 
-  // Strictly true ONLY if the logged-in Club Head's assigned club matches this exact club page
-  canEditThisClub = (editorIdentity.club_name === currentClubName && Boolean(editorIdentity.email));
+  // DEFAULT TO FALSE: Normal students can NEVER edit
+  canEditThisClub = false;
   renderClubUI();
 
   try {
@@ -595,19 +564,16 @@ async function loadClubWebpage() {
     if (res.ok) {
       const data = await res.json();
       clubPageData = { ...clubPageData, ...(data.page || {}) };
+      // STRICT VERIFICATION: Server verifies if logged-in Club Head matches THIS exact club page
       canEditThisClub = Boolean(data.can_edit) && (editorIdentity.club_name === currentClubName);
       acceptedMembersCount = data.accepted_members_count || 0;
       renderClubUI();
     }
   } catch (err) {
-    // Fallback already rendered cleanly
+    // If offline, fallback checks local storage identity match
+    canEditThisClub = (editorIdentity.club_name === currentClubName && Boolean(editorIdentity.email));
+    renderClubUI();
   }
-}
-
-function saveToLocalCache() {
-  const cache = JSON.parse(localStorage.getItem("kle_club_pages_cache") || "{}");
-  cache[currentClubName] = clubPageData;
-  localStorage.setItem("kle_club_pages_cache", JSON.stringify(cache));
 }
 
 function openInfoModal() {
@@ -628,7 +594,7 @@ function closeInfoModal() {
 
 async function saveClubInfoAndColors() {
   const editorIdentity = getActiveEditorIdentity();
-  if (!editorIdentity.email || editorIdentity.club_name !== currentClubName) return;
+  if (!canEditThisClub || editorIdentity.club_name !== currentClubName) return;
 
   clubPageData.tagline = document.getElementById("editTagline").value.trim();
   clubPageData.about = document.getElementById("editAbout").value.trim();
@@ -638,7 +604,6 @@ async function saveClubInfoAndColors() {
   clubPageData.theme_secondary = document.getElementById("editSecondaryCol").value;
   clubPageData.theme_bg = document.getElementById("editBgCol").value;
 
-  saveToLocalCache();
   closeInfoModal();
   renderClubUI();
 
@@ -675,7 +640,7 @@ function closeItemModal() {
 
 async function saveListItem() {
   const editorIdentity = getActiveEditorIdentity();
-  if (!editorIdentity.email || editorIdentity.club_name !== currentClubName) return;
+  if (!canEditThisClub || editorIdentity.club_name !== currentClubName) return;
 
   const type = document.getElementById("itemType").value;
   const idx = parseInt(document.getElementById("itemIndex").value, 10);
@@ -689,7 +654,6 @@ async function saveListItem() {
     targetArr.push(text);
   }
 
-  saveToLocalCache();
   closeItemModal();
   renderClubUI();
 
@@ -710,7 +674,7 @@ async function saveListItem() {
 
 async function deleteListItem(type, index) {
   const editorIdentity = getActiveEditorIdentity();
-  if (!editorIdentity.email || editorIdentity.club_name !== currentClubName) return;
+  if (!canEditThisClub || editorIdentity.club_name !== currentClubName) return;
   if (!confirm("Remove this point from the club page?")) return;
 
   if (type === "advantages") {
@@ -719,7 +683,6 @@ async function deleteListItem(type, index) {
     clubPageData.benefits.splice(index, 1);
   }
 
-  saveToLocalCache();
   renderClubUI();
 
   try {
@@ -737,7 +700,6 @@ async function deleteListItem(type, index) {
   } catch (e) {}
 }
 
-// Lazy-load Google script ONLY when Student Login modal is opened
 function ensureGoogleScriptLoaded() {
   if (document.getElementById("gsiScript")) return;
   const s = document.createElement("script");
