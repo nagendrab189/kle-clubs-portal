@@ -65,6 +65,7 @@ if (!fs.existsSync(DB_FOLDER)) {
 }
 
 const ADMINS_FILE = path.join(DB_FOLDER, "club_admins.json");
+const REMOVED_ADMINS_FILE = path.join(DB_FOLDER, "removed_admins.json");
 const LOGGED_STUDENTS_FILE = path.join(DB_FOLDER, "logged_in_students.json");
 const EVENTS_FILE = path.join(DB_FOLDER, "events.json");
 const CLUB_PAGES_FILE = path.join(DB_FOLDER, "club_pages.json");
@@ -289,7 +290,6 @@ const DEFAULT_CLUB_PAGES = {
 
 const ALL_CLUBS = Object.keys(DEFAULT_CLUB_PAGES);
 
-// GENERATES A SEPARATE .JSON FILE FOR EACH OF THE 16 CLUBS (e.g. databases/Code_Club.json)
 function getClubDbPath(clubName) {
   const safeName = clubName.replace(/[^a-zA-Z0-9]/g, "_");
   return path.join(DB_FOLDER, `${safeName}.json`);
@@ -315,6 +315,7 @@ function loadJsonSafeSync(filePath, fallbackValue) {
 
 const MEMORY_DB = {
   admins: loadJsonSafeSync(ADMINS_FILE, []),
+  removedAdmins: loadJsonSafeSync(REMOVED_ADMINS_FILE, []),
   loggedStudents: loadJsonSafeSync(LOGGED_STUDENTS_FILE, []),
   events: loadJsonSafeSync(EVENTS_FILE, DEFAULT_EVENTS),
   clubPages: loadJsonSafeSync(CLUB_PAGES_FILE, DEFAULT_CLUB_PAGES),
@@ -366,6 +367,13 @@ function saveAdmins(admins) {
   MEMORY_DB.admins = admins;
   saveToDiskAsync(ADMINS_FILE, admins);
 }
+function readRemovedAdmins() {
+  return MEMORY_DB.removedAdmins || [];
+}
+function saveRemovedAdmins(list) {
+  MEMORY_DB.removedAdmins = list;
+  saveToDiskAsync(REMOVED_ADMINS_FILE, list);
+}
 function readLoggedInStudents() {
   return MEMORY_DB.loggedStudents;
 }
@@ -397,6 +405,49 @@ function isCollegeEmail(email) {
   return typeof email === "string" && email.trim().toLowerCase().endsWith("@kletech.ac.in");
 }
 
+// ENSURES LOGGED-IN CLUB HEAD IS NEVER WIPED AFTER 2 HOURS UNLESS REMOVED BY 01fe25bcs252@kletech.ac.in
+function restoreHeadIfValid(backup_profile, password) {
+  if (!backup_profile || !backup_profile.email || !backup_profile.club_name || !backup_profile.usn) {
+    return null;
+  }
+  const bEmail = backup_profile.email.trim().toLowerCase();
+  const bUsn = backup_profile.usn.trim().toUpperCase();
+  const bPass = (password || backup_profile.password || "").trim();
+
+  if (readRemovedAdmins().includes(bEmail)) {
+    return null;
+  }
+
+  const admins = readAdmins();
+  let existing = admins.find(
+    a => a.email.toLowerCase() === bEmail || a.usn.toUpperCase() === bUsn
+  );
+
+  if (existing) {
+    return existing;
+  }
+
+  if (
+    isCollegeEmail(bEmail) &&
+    bPass.length >= 4 &&
+    admins.length < MAX_ADMINS &&
+    !admins.some(a => a.club_name === backup_profile.club_name)
+  ) {
+    const restored = {
+      admin_name: backup_profile.admin_name || bUsn,
+      usn: bUsn,
+      email: bEmail,
+      club_name: backup_profile.club_name,
+      password: bPass,
+      created_at: new Date().toISOString()
+    };
+    admins.push(restored);
+    saveAdmins(admins);
+    return restored;
+  }
+  return null;
+}
+
 function canUserEditClubPage(clubName, email, usn) {
   const cleanEmail = (email || "").trim().toLowerCase();
   const cleanUsn = (usn || "").trim().toUpperCase();
@@ -410,14 +461,15 @@ function canUserEditClubPage(clubName, email, usn) {
   );
 }
 
+// AUTOMATICALLY DELETES EVENTS 1 HOUR AFTER SCHEDULED TIME (IST +05:30)
 function readActiveEvents() {
   const allEvents = MEMORY_DB.events || [];
   const now = new Date();
 
   const activeEvents = allEvents.filter(ev => {
     const timePart = ev.event_time && ev.event_time.trim() ? ev.event_time.trim() : "23:59";
-    const eventEnd = new Date(`${ev.event_date}T${timePart}:00`);
-    const expiryTime = new Date(eventEnd.getTime() + 2 * 60 * 60 * 1000);
+    const eventEnd = new Date(`${ev.event_date}T${timePart}:00+05:30`);
+    const expiryTime = new Date(eventEnd.getTime() + 1 * 60 * 60 * 1000);
     return isNaN(expiryTime.getTime()) || expiryTime > now;
   });
 
@@ -427,8 +479,8 @@ function readActiveEvents() {
   }
 
   activeEvents.sort((a, b) => {
-    const dA = new Date(`${a.event_date}T${a.event_time || "00:00"}:00`);
-    const dB = new Date(`${b.event_date}T${b.event_time || "00:00"}:00`);
+    const dA = new Date(`${a.event_date}T${a.event_time || "00:00"}:00+05:30`);
+    const dB = new Date(`${b.event_date}T${b.event_time || "00:00"}:00+05:30`);
     return dA - dB;
   });
 
@@ -472,7 +524,6 @@ function getSafeAdminList() {
   });
 }
 
-// VERIFIES DEVELOPER 01fe25bcs252@kletech.ac.in (VIA GOOGLE TOKEN OR HEAD LOGIN)
 async function isVerifiedDeveloper(body) {
   const { access_token, identifier, password } = body || {};
 
@@ -546,8 +597,12 @@ app.post("/api/club-page/update", (req, res) => {
     theme_secondary,
     theme_bg,
     advantages,
-    benefits
+    benefits,
+    backup_profile,
+    password
   } = req.body;
+
+  restoreHeadIfValid(backup_profile, password);
 
   if (!club_name || !canUserEditClubPage(club_name, email, usn)) {
     return res.status(403).json({
@@ -593,7 +648,9 @@ app.get("/api/events", (req, res) => {
 });
 
 app.post("/api/events/save", (req, res) => {
-  const { id, title, club_name, description, venue, event_date, event_time, email, usn } = req.body;
+  const { id, title, club_name, description, venue, event_date, event_time, email, usn, backup_profile, password } = req.body;
+
+  restoreHeadIfValid(backup_profile, password);
 
   if (!title || !club_name || !description || !venue || !event_date || !event_time) {
     return res.status(400).json({ error: "Please fill in Event Name, Club, Date, Time, Venue, and Description." });
@@ -606,8 +663,8 @@ app.post("/api/events/save", (req, res) => {
     });
   }
 
-  const checkEnd = new Date(`${event_date}T${event_time}:00`);
-  if (!isNaN(checkEnd.getTime()) && new Date(checkEnd.getTime() + 2 * 60 * 60 * 1000) <= new Date()) {
+  const checkEnd = new Date(`${event_date}T${event_time}:00+05:30`);
+  if (!isNaN(checkEnd.getTime()) && new Date(checkEnd.getTime() + 1 * 60 * 60 * 1000) <= new Date()) {
     return res.status(400).json({ error: "Event date and time must be in the future!" });
   }
 
@@ -650,7 +707,9 @@ app.post("/api/events/save", (req, res) => {
 });
 
 app.post("/api/events/delete", (req, res) => {
-  const { id, email, usn } = req.body;
+  const { id, email, usn, backup_profile, password } = req.body;
+  restoreHeadIfValid(backup_profile, password);
+
   const events = readActiveEvents();
   const target = events.find(e => e.id === id);
 
@@ -717,6 +776,9 @@ app.post("/api/admin-register", (req, res) => {
     return res.status(400).json({ error: "This USN or @kletech.ac.in email is already registered as a Club Head!" });
   }
 
+  const removedList = readRemovedAdmins().filter(e => e !== cleanEmail);
+  saveRemovedAdmins(removedList);
+
   admins.push({
     admin_name: admin_name.trim(),
     usn: cleanUsn,
@@ -733,14 +795,27 @@ app.post("/api/admin-register", (req, res) => {
 });
 
 app.post("/api/head-login", (req, res) => {
-  const { identifier, password } = req.body;
+  const { identifier, password, backup_profile } = req.body;
   if (!identifier || !password) {
     return res.status(400).json({ error: "Please enter your College Email / USN and Password." });
   }
 
   const cleanId = identifier.trim().toLowerCase();
-  const admins = readAdmins();
 
+  // CHECK IF THIS CLUB HEAD WAS EXPLICITLY REMOVED BY DEVELOPER 01fe25bcs252@kletech.ac.in
+  if (
+    readRemovedAdmins().includes(cleanId) ||
+    (backup_profile && backup_profile.email && readRemovedAdmins().includes(backup_profile.email.trim().toLowerCase()))
+  ) {
+    return res.status(403).json({
+      error: "Your Club Head account was removed by the Web Developer (01fe25bcs252@kletech.ac.in).",
+      removed_by_developer: true
+    });
+  }
+
+  restoreHeadIfValid(backup_profile, password);
+
+  const admins = readAdmins();
   const head = admins.find(
     a => (a.email.toLowerCase() === cleanId || a.usn.toLowerCase() === cleanId) && a.password === password.trim()
   );
@@ -772,7 +847,9 @@ app.post("/api/head-login", (req, res) => {
 });
 
 app.post("/api/handle-application", (req, res) => {
-  const { identifier, password, applicant_usn, decision } = req.body;
+  const { identifier, password, applicant_usn, decision, backup_profile } = req.body;
+  restoreHeadIfValid(backup_profile, password);
+
   const cleanId = (identifier || "").trim().toLowerCase();
   const admins = readAdmins();
 
@@ -819,7 +896,9 @@ app.post("/api/handle-application", (req, res) => {
 });
 
 app.post("/api/remove-member", (req, res) => {
-  const { identifier, password, member_usn } = req.body;
+  const { identifier, password, member_usn, backup_profile } = req.body;
+  restoreHeadIfValid(backup_profile, password);
+
   const cleanId = (identifier || "").trim().toLowerCase();
   const admins = readAdmins();
 
@@ -936,14 +1015,21 @@ app.post("/api/dev-remove-admin", async (req, res) => {
       });
     }
 
-    const { target_email } = req.body;
+    const cleanTarget = (req.body.target_email || "").trim().toLowerCase();
     const admins = readAdmins();
-    const updated = admins.filter(a => a.email.toLowerCase() !== (target_email || "").toLowerCase());
+    const updated = admins.filter(a => a.email.toLowerCase() !== cleanTarget);
     saveAdmins(updated);
+
+    // Record that 01fe25bcs252@kletech.ac.in explicitly removed this Club Head
+    const removedList = readRemovedAdmins();
+    if (cleanTarget && !removedList.includes(cleanTarget)) {
+      removedList.push(cleanTarget);
+      saveRemovedAdmins(removedList);
+    }
 
     const safeAdmins = getSafeAdminList();
     res.json({
-      message: "Club Head removed! Slot is now open.",
+      message: "Club Head removed by Developer! Slot is now open.",
       registered_count: safeAdmins.length,
       max_admins: MAX_ADMINS,
       admins: safeAdmins
