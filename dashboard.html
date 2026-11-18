@@ -26,7 +26,6 @@ a{text-decoration:none;color:inherit}
 
 .container{max-width:1180px;margin:34px auto 80px;padding:0 20px}
 
-/* AUTH CARD */
 .auth-wrap{max-width:460px;margin:32px auto;background:#fff;border-radius:24px;padding:30px;box-shadow:0 18px 45px rgba(15,23,42,.08);border:1px solid #f1e4dc}
 .tabs{display:grid;grid-template-columns:1fr 1fr;background:#f1f5f9;padding:5px;border-radius:12px;margin-bottom:20px}
 .tab-btn{padding:11px;border:0;border-radius:9px;background:transparent;font-weight:700;font-size:13.5px;cursor:pointer;color:var(--slate)}
@@ -40,7 +39,6 @@ a{text-decoration:none;color:inherit}
 .msg.err{display:block;background:#fef2f2;color:#dc2626}
 .msg.ok{display:block;background:#f0fdf4;color:#15803d}
 
-/* DASHBOARD PANEL */
 #dashboardPanel{display:none}
 .dash-header{background:linear-gradient(135deg,#1e293b,#0f172a);color:#fff;border-radius:22px;padding:28px 32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin-bottom:24px}
 .dash-header h1{font-size:28px;margin-bottom:4px}
@@ -58,7 +56,6 @@ a{text-decoration:none;color:inherit}
 .section-card h2{font-size:20px;margin-bottom:6px}
 .section-sub{font-size:13.5px;color:var(--slate);margin-bottom:18px}
 
-/* DEVELOPER ONLY PANEL (01fe25bcs252@kletech.ac.in) */
 .dev-card{border:2px solid #7c3aed;background:#faf5ff}
 .dev-badge{display:inline-block;background:#7c3aed;color:#fff;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:800;margin-bottom:8px}
 
@@ -79,7 +76,6 @@ table{width:100%;border-collapse:collapse;margin-top:10px}
 th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);font-size:13.5px}
 th{font-size:12px;text-transform:uppercase;color:var(--slate)}
 
-/* MODAL FOR DEVELOPER EDITING CLUB HEAD DETAILS */
 .modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.62);backdrop-filter:blur(5px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
 .modal-overlay.open{display:flex}
 .modal-card{width:100%;max-width:460px;background:#fff;border-radius:22px;padding:26px;position:relative}
@@ -93,7 +89,6 @@ th{font-size:12px;text-transform:uppercase;color:var(--slate)}
 <body>
 
 <header class="navbar">
-  <!-- DOUBLE-CLICKING "KLE" ON THE TOP-LEFT OPENS THE SECRET DEVELOPER LOGIN FOR 01fe25bcs252@kletech.ac.in -->
   <div class="brand" ondblclick="triggerDeveloperGoogleLogin()" title="Double-click for Developer Access">
     <span class="badge" id="secretKleBadge">KLE</span>
     <span>Club Head Management Portal</span>
@@ -104,7 +99,6 @@ th{font-size:12px;text-transform:uppercase;color:var(--slate)}
 </header>
 
 <div class="container">
-  <!-- AUTH BOX -->
   <div class="auth-wrap" id="authBox">
     <div class="tabs">
       <button type="button" class="tab-btn active" id="tabLoginBtn" onclick="switchAuthTab('login')">Club Head Login</button>
@@ -113,7 +107,6 @@ th{font-size:12px;text-transform:uppercase;color:var(--slate)}
 
     <div id="authMsg" class="msg"></div>
 
-    <!-- LOGIN FORM -->
     <div id="loginForm">
       <h2>Club Head Login</h2>
       <p style="font-size:13.5px;color:var(--slate);margin-bottom:18px">Sign in with your College Email / USN and password to manage your club.</p>
@@ -128,7 +121,6 @@ th{font-size:12px;text-transform:uppercase;color:var(--slate)}
       <button type="button" class="btn-primary" onclick="loginClubHead()">Login to Club Head Portal →</button>
     </div>
 
-    <!-- REGISTER FORM -->
     <div id="registerForm" style="display:none">
       <h2>Create Club Head Account</h2>
       <p style="font-size:13.5px;color:var(--slate);margin-bottom:18px">Only <b>16 Club Heads</b> can register. Enter your Name, USN, College Email, and create your own password.</p>
@@ -173,7 +165,6 @@ th{font-size:12px;text-transform:uppercase;color:var(--slate)}
     </div>
   </div>
 
-  <!-- DEVELOPER CONTROL PANEL (HIDDEN UNTIL DOUBLE-CLICKING "KLE" ON TOP-LEFT AS 01fe25bcs252@kletech.ac.in) -->
   <div class="section-card dev-card" id="developerControlPanel" style="display:none">
     <span class="dev-badge">👑 EXCLUSIVE WEB DEVELOPER PANEL (01fe25bcs252@kletech.ac.in)</span>
     <h2>Manage All 16 Club Heads (<span id="devSlotCount">0/16</span> Slots Used)</h2>
@@ -194,7 +185,6 @@ th{font-size:12px;text-transform:uppercase;color:var(--slate)}
     </table>
   </div>
 
-  <!-- LOGGED-IN CLUB HEAD DASHBOARD -->
   <div id="dashboardPanel">
     <div class="dash-header">
       <div>
@@ -223,7 +213,6 @@ th{font-size:12px;text-transform:uppercase;color:var(--slate)}
       </div>
     </div>
 
-    <!-- SECTION 1: EDIT THIS CLUB'S WEBPAGE DIRECTLY INSIDE CLUB HEAD DASHBOARD -->
     <div class="section-card">
       <h2>🎨 Edit Your Club Webpage (<span id="editorClubLabel"></span>)</h2>
       <p class="section-sub">Paste your Offline Test application link below to enable the registration button on your club page. When empty, the button stays hidden on the club page.</p>
@@ -293,7 +282,6 @@ th{font-size:12px;text-transform:uppercase;color:var(--slate)}
       </button>
     </div>
 
-    <!-- SECTION 2: PENDING OFFLINE TEST APPLICANTS -->
     <div class="section-card">
       <h2>📝 Pending Offline Test Applicants</h2>
       <p class="section-sub">Every student who clicks your Offline Test link button on the club page is recorded here. Click <b>Accept</b> once they pass the offline test or <b>Decline</b> to remove.</p>
@@ -305,7 +293,6 @@ th{font-size:12px;text-transform:uppercase;color:var(--slate)}
       </table>
     </div>
 
-    <!-- SECTION 3: ACCEPTED CLUB MEMBERS -->
     <div class="section-card">
       <h2>✅ Accepted Club Members</h2>
       <p class="section-sub">Official members stored in this club's dedicated database file.</p>
@@ -317,7 +304,6 @@ th{font-size:12px;text-transform:uppercase;color:var(--slate)}
       </table>
     </div>
 
-    <!-- SECTION 4: MANAGE UPCOMING EVENTS FOR THIS CLUB -->
     <div class="section-card">
       <h2>📅 Manage Upcoming Events for Your Club</h2>
       <p class="section-sub">Publish upcoming auditions, workshops, or fests for your club onto the main homepage calendar.</p>
@@ -356,7 +342,6 @@ th{font-size:12px;text-transform:uppercase;color:var(--slate)}
   </div>
 </div>
 
-<!-- DEVELOPER EDIT CLUB HEAD MODAL (ONLY FOR 01fe25bcs252@kletech.ac.in) -->
 <div class="modal-overlay" id="devEditModal">
   <div class="modal-card">
     <button type="button" class="modal-close" onclick="closeDevEditModal()">×</button>
@@ -418,6 +403,11 @@ let currentClubPage = {
   benefits: []
 };
 
+function getSavedBackupProfile() {
+  return JSON.parse(localStorage.getItem("kle_club_head_profile") || "null") ||
+         JSON.parse(localStorage.getItem("kle_club_head") || "null");
+}
+
 function switchAuthTab(tab) {
   document.getElementById("authMsg").className = "msg";
   if (tab === "login") {
@@ -454,6 +444,15 @@ async function registerClubHead() {
     });
     const data = await res.json();
     if (!res.ok) return showAuthMsg(data.error || "Could not create account.", false);
+
+    localStorage.setItem("kle_club_head_profile", JSON.stringify({
+      admin_name,
+      usn: usn.toUpperCase(),
+      email: email.toLowerCase(),
+      club_name,
+      password
+    }));
+
     showAuthMsg(data.message, true);
     switchAuthTab("login");
     document.getElementById("loginId").value = email;
@@ -465,23 +464,33 @@ async function registerClubHead() {
 async function loginClubHead() {
   const identifier = document.getElementById("loginId").value.trim();
   const password = document.getElementById("loginPass").value.trim();
+  const backupProfile = getSavedBackupProfile();
 
   try {
     const res = await fetch("/api/head-login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ identifier, password })
+      body: JSON.stringify({ identifier, password, backup_profile: backupProfile })
     });
     const data = await res.json();
     if (!res.ok) return showAuthMsg(data.error || "Login failed.", false);
 
     currentHead = data;
     currentHeadPassword = password;
-    localStorage.setItem("kle_club_head", JSON.stringify({
+
+    const fullProfile = {
       admin_name: data.admin_name,
       usn: data.usn,
       email: data.email,
-      club_name: data.club_name
+      club_name: data.club_name,
+      password: password
+    };
+    localStorage.setItem("kle_club_head_profile", JSON.stringify(fullProfile));
+    localStorage.setItem("kle_club_head", JSON.stringify({
+      ...fullProfile,
+      identifier: data.email,
+      password: password,
+      cached_data: data
     }));
 
     document.getElementById("authBox").style.display = "none";
@@ -490,13 +499,80 @@ async function loginClubHead() {
     await loadClubPageIntoEditor(data.club_name);
     await loadClubEventsTable();
 
-    // IF LOGGED IN AS DEVELOPER (01fe25bcs252@kletech.ac.in), UNLOCK DEVELOPER PANEL AUTOMATICALLY
     if (data.is_developer && Array.isArray(data.all_admins)) {
       devAuthPayload = { identifier, password };
       renderDeveloperPanel(data.all_admins, data.max_admins || 16);
     }
   } catch (e) {
     showAuthMsg("Server error! Make sure node server.js is running.", false);
+  }
+}
+
+// PERMANENT LOGIN PERSISTENCE: NEVER LOGS OUT AUTOMATICALLY AFTER 2 HOURS
+// ONLY LOGS OUT IF CLUB HEAD CLICKS LOGOUT OR DEVELOPER (01fe25bcs252@kletech.ac.in) REMOVES THEM
+async function checkExistingSession() {
+  const saved = JSON.parse(localStorage.getItem("kle_club_head") || "null");
+  if (!saved || !saved.identifier || !saved.password) return;
+  const backupProfile = getSavedBackupProfile();
+
+  // Immediately render dashboard from localStorage so Club Head is never asked for email/password again
+  currentHead = saved.cached_data || {
+    admin_name: saved.admin_name || saved.usn || "Club Head",
+    usn: saved.usn || "",
+    email: saved.email || saved.identifier,
+    club_name: saved.club_name || "Code Club",
+    applicants: [],
+    members: [],
+    total_club_members: 0,
+    total_pending_applicants: 0,
+    total_portal_logins: 0
+  };
+  currentHeadPassword = saved.password;
+  document.getElementById("authBox").style.display = "none";
+  document.getElementById("dashboardPanel").style.display = "block";
+  renderDashboardHeaderAndTables(currentHead);
+
+  try {
+    const res = await fetch("/api/head-login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        identifier: saved.identifier,
+        password: saved.password,
+        backup_profile: backupProfile
+      })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      currentHead = data;
+      currentHeadPassword = saved.password;
+
+      localStorage.setItem("kle_club_head", JSON.stringify({
+        ...saved,
+        admin_name: data.admin_name,
+        usn: data.usn,
+        email: data.email,
+        club_name: data.club_name,
+        cached_data: data
+      }));
+
+      renderDashboardHeaderAndTables(data);
+      await loadClubPageIntoEditor(data.club_name);
+      await loadClubEventsTable();
+
+      if (data.is_developer && Array.isArray(data.all_admins)) {
+        devAuthPayload = { identifier: saved.identifier, password: saved.password };
+        renderDeveloperPanel(data.all_admins, data.max_admins || 16);
+      }
+    } else if (data && data.removed_by_developer === true) {
+      // ONLY clear session if 01fe25bcs252@kletech.ac.in explicitly removed this Club Head
+      localStorage.removeItem("kle_club_head");
+      localStorage.removeItem("kle_club_head_profile");
+      alert("Your Club Head account was removed by the Web Developer (01fe25bcs252@kletech.ac.in).");
+      window.location.reload();
+    }
+  } catch (e) {
+    // Keep Club Head logged in even if server is waking up from sleep
   }
 }
 
@@ -540,9 +616,6 @@ function renderDashboardHeaderAndTables(data) {
     : `<tr><td colspan="4" style="color:#64748b">No accepted members yet.</td></tr>`;
 }
 
-// =========================================================
-// SECRET DOUBLE-CLICK ON TOP-LEFT "KLE" LOGO (FOR 01fe25bcs252@kletech.ac.in)
-// =========================================================
 function ensureGoogleScriptLoaded() {
   if (document.getElementById("gsiScript")) return;
   const s = document.createElement("script");
@@ -685,9 +758,6 @@ async function devRemoveAdmin(targetEmail) {
   renderDeveloperPanel(data.admins || [], data.max_admins || 16);
 }
 
-// =========================================================
-// CLUB HEAD WEBPAGE EDITOR FUNCTIONS
-// =========================================================
 async function loadClubPageIntoEditor(clubName) {
   try {
     const res = await fetch(`/api/club-page?club=${encodeURIComponent(clubName)}&email=${encodeURIComponent(currentHead.email)}&usn=${encodeURIComponent(currentHead.usn)}`);
@@ -757,6 +827,8 @@ async function saveClubWebpageFromDashboard() {
     club_name: currentHead.club_name,
     email: currentHead.email,
     usn: currentHead.usn,
+    password: currentHeadPassword,
+    backup_profile: getSavedBackupProfile(),
     tagline: document.getElementById("editTagline").value.trim(),
     about: document.getElementById("editAbout").value.trim(),
     offline_test_info: document.getElementById("editTestInfo").value.trim(),
@@ -797,6 +869,7 @@ async function handleApplicant(applicant_usn, decision) {
     body: JSON.stringify({
       identifier: currentHead.email,
       password: currentHeadPassword,
+      backup_profile: getSavedBackupProfile(),
       applicant_usn,
       decision
     })
@@ -819,6 +892,7 @@ async function removeMember(member_usn) {
     body: JSON.stringify({
       identifier: currentHead.email,
       password: currentHeadPassword,
+      backup_profile: getSavedBackupProfile(),
       member_usn
     })
   });
@@ -873,7 +947,9 @@ async function saveClubEvent() {
       description,
       club_name: currentHead.club_name,
       email: currentHead.email,
-      usn: currentHead.usn
+      usn: currentHead.usn,
+      password: currentHeadPassword,
+      backup_profile: getSavedBackupProfile()
     })
   });
   const data = await res.json();
@@ -895,7 +971,13 @@ async function deleteClubEvent(id) {
   await fetch("/api/events/delete", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ id, email: currentHead.email, usn: currentHead.usn })
+    body: JSON.stringify({
+      id,
+      email: currentHead.email,
+      usn: currentHead.usn,
+      password: currentHeadPassword,
+      backup_profile: getSavedBackupProfile()
+    })
   });
   await loadClubEventsTable();
 }
@@ -904,6 +986,8 @@ function logoutClubHead() {
   localStorage.removeItem("kle_club_head");
   window.location.reload();
 }
+
+checkExistingSession();
 </script>
 </body>
 </html>
